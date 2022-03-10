@@ -8,6 +8,6 @@ const config = {
 }
 
 const db = new Sequelize(
-    `postgres://localhost:4000/${databaseName}`,config
+    `postgres://localhost:5432/${databaseName}`,config
 )
 module.exports = db
