@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "../src/slices/counterSlice.js";
+import { decrement, increment } from "../store";
 
 export default function Counter() {
-  const count = useSelector((state) => state.counter.value);
+  const counter = useSelector((state) => state.counter);
+  let count
+  counter ? count = counter.value : null;
   const dispatch = useDispatch();
 
   return (
