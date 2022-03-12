@@ -17,7 +17,8 @@ app.use(cors({ origin: true }));
 
 // auth route
 app.use("/auth", require("./auth"));
-
+// api routes
+app.use("/api", require('./api'));
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/", (req, res) =>
