@@ -1,28 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+// require("dotenv").config();
 
-const func = () =>
-  axios.get(
-    `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=NYC`,
-    {
-      headers: {
-        Authorization: `Bearer ${"7Sx1VUh0USPACiiBiWX7XGU9IT6E0TPgGnxNHHQIzSiUUl1Kfgdp2HlEFJJ-i0rVrt00nRi3MItgQSwvqLebEa7sRiUFF1Q6_gOXiyEqYzSkGldDEAwbtfD8NQ4pYnYx"}`,
-      },
-      params: {
-        categories: "coffee",
-      },
-    }
-  ).data;
+let ball = [];
+async function fetchData(zipcode) {
+  try {
+    if (!zipcode) return;
+    const result = await axios.get(
+      `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?location=${zipcode}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.SECRET_KEY_YELP}`,
+        },
+        params: {
+          categories: "coffee",
+        },
+      }
+    );
+    console.log(result.data);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export default () => {
-  const apiFunc = async () => await func();
-
-  let boy = apiFunc();
-  console.log(boy);
+  let queryParams = new URLSearchParams(window.location.href);
+  let array = [];
+  for (let item of queryParams) {
+    array.push(item);
+  }
+  const zip = array[0][1];
+  const [places, setPlaces] = useState([]);
+  useEffect(() => {
+    console.log(places, "inside useeffect");
+  });
 
   return (
     <div>
-      <h1>Testing Yelp API call</h1>
+      <h1>
+        <button onClick={() => setPlaces(fetchData(zip))}>Click</button>
+      </h1>
     </div>
   );
 };
