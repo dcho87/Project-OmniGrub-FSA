@@ -1,19 +1,34 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux'
-import {createLogger} from 'redux-logger'
-import thunkMiddleware from 'redux-thunk'
-import {composeWithDevTools} from 'redux-devtools-extension'
-import testRest from './testRest'
-import * as actionCreators from '../store'
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import loggerMiddleware from "redux-logger";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+import testRest from "./testRest";
+import counterSlice from "./counterSlice";
+import yelpSlice from "./yelpSlice";
+import * as actionCreators from "../store";
 
-const composeEnhancers = composeWithDevTools({ 
-    actionCreators, 
-    trace: true, 
-    traceLimit: 25 
-}); 
+const composeEnhancers = composeWithDevTools({
+  actionCreators,
+  trace: true,
+  traceLimit: 25,
+});
 
-const store = createStore(testRest, composeEnhancers(
-    applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-))
+const reducer = combineReducers({
+  testRest,
+  counterSlice,
+  yelpSlice,
+});
 
-export default store
-export * from './testRest'
+let middleware;
+if (process.env.NODE_ENV === "development") {
+  middleware = applyMiddleware(thunkMiddleware, loggerMiddleware);
+} else {
+  middleware = applyMiddleware(thunkMiddleware);
+}
+
+const store = createStore(reducer, composeEnhancers(middleware));
+
+export default store;
+export * from "./testRest";
+export * from "./counterSlice";
+export * from "./yelpSlice";
