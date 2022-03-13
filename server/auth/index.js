@@ -11,3 +11,12 @@ router.post("/login", async (req, res, next) => {
       next(err);
     }
 });
+
+router.get("/me", async (req,res,next)=>{
+    try{
+        res.send(await User.findByToken(req.headers.authorization))
+    }catch(ex){
+        next(ex);
+    }
+});
+
