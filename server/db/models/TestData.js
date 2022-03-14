@@ -1,6 +1,6 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
-const { STRING, INTEGER, DECIMAL } = Sequelize;
+const { STRING, INTEGER, DECIMAL, TEXT, DATE, JSON } = Sequelize;
 
 const Test = db.define('test', {
     businessId: {
@@ -28,9 +28,24 @@ const Test = db.define('test', {
         type: STRING,
     },
     stars: {
-        type: DECIMAL
+        type: DECIMAL 
+        // not showing the decimal point
+    },
+    attributes: {
+        type: JSON,
+    },
+    userId: {
+        type: STRING,
+    },
+    reviewStar: {
+        type: DECIMAL,
+    },
+    reviewText: {
+        type: TEXT
+    },
+    reviewDate: {
+        type: STRING
     }
-    // attributes could be seeded too
 })
 
 module.exports = Test;
