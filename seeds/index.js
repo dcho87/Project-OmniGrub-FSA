@@ -20,6 +20,11 @@ async function seed() {
         latitude: restaurant["latitude"],
         longitude: restaurant["longitude"],
         stars: restaurant["stars"],
+        attributes: restaurant["attributes"],
+        userId: restaurant["user_id"],
+        reviewStar: restaurant["review_stars"],
+        reviewText: restaurant["text"],
+        reviewDate: restaurant["date"],
       })
     })
   )

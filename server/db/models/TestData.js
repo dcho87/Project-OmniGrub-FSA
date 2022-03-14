@@ -1,6 +1,6 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
-const { STRING, INTEGER, DECIMAL, TEXT, DATE } = Sequelize;
+const { STRING, INTEGER, DECIMAL, TEXT, DATE, JSON } = Sequelize;
 
 const Test = db.define('test', {
     businessId: {
@@ -28,10 +28,11 @@ const Test = db.define('test', {
         type: STRING,
     },
     stars: {
-        type: DECIMAL
+        type: DECIMAL 
+        // not showing the decimal point
     },
     attributes: {
-        type: STRING,
+        type: JSON,
     },
     userId: {
         type: STRING,
@@ -40,10 +41,10 @@ const Test = db.define('test', {
         type: DECIMAL,
     },
     reviewText: {
-        type: TEXT,
+        type: TEXT
     },
     reviewDate: {
-        type: DATE
+        type: STRING
     }
 })
 
