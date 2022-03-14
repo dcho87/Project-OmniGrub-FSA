@@ -6,13 +6,17 @@ import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate } from "../../store";
+import { authenticate, logout } from "../../store";
+import { Link, useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#E74E35",
     },
+    secondary:{
+        main:"#000000"
+    }
   },
   typography: {
     fontFamily: "Lato Regular",
@@ -21,7 +25,7 @@ const theme = createTheme({
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -35,6 +39,12 @@ export const LoginPage = () => {
       console.log(ex);
     }
   };
+
+//   const onLogout = ()=>{
+
+//         dispatch(logout())
+
+//   }
 
   return (
     <div>
@@ -89,15 +99,28 @@ export const LoginPage = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                 >
-                  Submit
+                  Log in
                 </Button>
               </Grid>
               <Grid item xs={12} sm={12}>
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
               </Grid>
             </Grid>
           </Box>
+
         </Box>
       </ThemeProvider>
     </div>
