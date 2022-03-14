@@ -4,11 +4,9 @@ const TOKEN = "token";
 
 //ACTION TYPES
 const SET_AUTH = "SET_AUTH"
-const UPDATE_USER = "UPDATE_USER"
 
 //ACTION CREATORS
 const setAuth = (auth)=>({type: SET_AUTH, auth})
-const updateUser = (user)=>({type: UPDATE_USER, user})
 
 //THUNK CREATORS
 
@@ -23,6 +21,7 @@ export const authenticate = (data, method)=> async(dispatch)=>{
         window.localStorage.setItem(TOKEN, response.data.token);
         dispatch(me());
     }catch(error){
+        //displays the auth error in the logger
         return dispatch(setAuth({error:error}))
     }
 }

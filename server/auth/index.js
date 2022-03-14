@@ -20,3 +20,8 @@ router.get("/me", async (req,res,next)=>{
     }
 });
 
+//make a login page
+//go to that login page
+//be able to login
+//set up navbar to show or not show based on the auth stuff
+//

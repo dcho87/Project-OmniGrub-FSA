@@ -5,6 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import testRest from "./testRest";
 import counterSlice from "./counterSlice";
 import yelpSlice from "./yelpSlice";
+import auth from './auth'
 import * as actionCreators from "../store";
 
 const composeEnhancers = composeWithDevTools({
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   testRest,
   counterSlice,
   yelpSlice,
+  auth,
 });
 
 let middleware;
@@ -32,3 +34,4 @@ export default store;
 export * from "./testRest";
 export * from "./counterSlice";
 export * from "./yelpSlice";
+export * from './auth'
