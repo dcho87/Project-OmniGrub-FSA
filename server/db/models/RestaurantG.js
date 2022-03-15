@@ -34,5 +34,4 @@ const RestaurantG = db.define("restaurantg", {
   },
 });
 
-console.log("hello");
 module.exports = RestaurantG;

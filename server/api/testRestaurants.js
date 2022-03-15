@@ -12,3 +12,11 @@ router.get('/', async(req, res, next)=>{
         next(err)
     }
 })
+
+router.get('/:id', async(req, res, next)=>{
+    try{
+        res.send(await Test.findByPk(req.params.id))
+    } catch(err){
+        next(err)
+    }
+})
