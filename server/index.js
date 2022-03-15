@@ -3,7 +3,6 @@ const PORT = process.env.PORT || 4000;
 const app = require("./app");
 const seed = require("../seeds");
 require("dotenv").config();
-console.log(process.env, "process");
 
 const init = async () => {
   try {
