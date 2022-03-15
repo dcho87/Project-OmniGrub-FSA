@@ -1,19 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const yelpSlice = createSlice({
-  name: "counter",
-  initialState: {
-    yelpStores: [],
-  },
-  reducers: {
-    fill: (state) => {
-      state.yelpStores = [...state.yelpStores, 1];
-      console.log(state.yelpStores, "stores");
-    },
-  },
-});
+//ACTION TYPES
+const FIND_SPOTS = "FIND_SPOTS";
 
-// Action creators are generated for each case reducer function
-export const { fill } = yelpSlice.actions;
+//ACTION CREATORS
+const _findNearby = (nearBySpots) => {
+  return {
+    type: FIND_SPOTS,
+    nearBySpots,
+  };
+};
 
-export default yelpSlice.reducer;
+//THUNKS
+export const findNearby = (zip) => {
+  return async (dispatch) => {
+    const nearbySpots = (await axios.get(`/api/yelpAPI/${zip}`)).data;
+    dispatch(_findNearby(nearbySpots));
+  };
+};
+
+//REDUCER
+export default (state = [], action) => {
+  switch (action.type) {
+    case FIND_SPOTS:
+      return [...state, action.nearBySpots];
+    default:
+      return state;
+  }
+};
