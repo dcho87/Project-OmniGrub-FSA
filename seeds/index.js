@@ -1,14 +1,31 @@
-const { db } = require("../server/db");
-
+const { db, models: { Test } } = require("../server/db");
 const userSeed = require("./user");
+const { dataRYelp } = require("../server/db/yelpTest/business");
 
 async function seed() {
   await db.sync({ force: true }); //clear db and match models
   console.log("DB Has been Synced!");
 
   const [users] = await Promise.all([userSeed()]);
+  // CREATING TEST DATA FOR RESTAURANTS IN CA
+  const testData = await Promise.all(
+    dataRYelp.map((restaurant, idx)=>{
+      Test.create({
+        businessId: restaurant["business_id"],
+        name: restaurant["name"],
+        address: restaurant["address"],
+        city: restaurant["city"],
+        state: restaurant["state"],
+        postalCode: restaurant["postal_code"],
+        latitude: restaurant["latitude"],
+        longitude: restaurant["longitude"],
+        stars: restaurant["stars"],
+      })
+    })
+  )
+  console.log(`seeded ${testData.length} restaurants from Yelp Test Dataset`);
   console.log(`
-  
+
     seeded successfully!!
     
 `);
