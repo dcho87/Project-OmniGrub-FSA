@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRest, findNearby } from "../store";
 
-const Home = () => {
+export const HomeYelp = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -44,4 +44,3 @@ const Home = () => {
   );
 };
 
-export default Home;
