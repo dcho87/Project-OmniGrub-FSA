@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
 import { me } from "./store";
 
-
 export const App = () => {
   const dispatch = useDispatch();
 
@@ -18,7 +17,6 @@ export const App = () => {
 
   return (
     <div>
-
       <BrowserRouter>
         <NavBar />
         <Routes>

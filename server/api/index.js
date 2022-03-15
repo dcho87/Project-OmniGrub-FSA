@@ -2,6 +2,7 @@ const router = require("express").Router();
 module.exports = router;
 
 router.use("/testRest", require("./testRestaurants"));
+router.use("/google", require("./google"));
 router.use("/yelpAPI", require("./yelpAPI"));
 router.use("/users", require("./users"));
 
