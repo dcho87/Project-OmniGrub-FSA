@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const axios = require("axios");
-const { stringify } = require("flatted");
 module.exports = router;
 
 //GET Geocode
