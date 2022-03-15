@@ -39,7 +39,7 @@ export default () => {
   return (
     <div>
       <h1>
-        <button onClick={() => setPlaces(fetchData(zip))}>Click</button>
+        {/* <button onClick={() => setPlaces(fetchData(zip))}>Click</button> */}
       </h1>
     </div>
   );
