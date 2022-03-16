@@ -36,13 +36,6 @@ const LocationInput = () => {
         </Paper>
     )
 }
-// <Stack direction="column" spacing={1}>
-        //     <Chip 
-        //         label="Clickable"
-        //         // onClick={handleClick}
-        //     />
-        // </Stack>
-
 
         // const useStyles = makeStyles((theme) => ({
         //     root: {
@@ -60,7 +53,6 @@ const LocationInput = () => {
         //     }
         // }));
 const Category = ({cuisines, handleFilter}) => {
-    // const state = useSelector((state) => state);
     
     return(
         <Paper 
@@ -105,6 +97,7 @@ const HomeTest = () => {
     // FILTERING
     const handleFilter = (ev) => {
         // filtered ? setRestaurants(state.testRest.restaurants) : ''
+        // console.log(ev)
         let newCuisine = ev.target.textContent;
         setCategory(newCuisine)
         // console.log(category)
