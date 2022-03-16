@@ -22,6 +22,26 @@ router.get("/geocode/:id", async (req, res, next) => {
   }
 });
 
+//GET Reverse Geocode
+router.get("/geocode/reverse/:latlng", async (req, res, next) => {
+  try {
+    let data = [];
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/geocode/json",
+      {
+        params: {
+          latlng: req.params.latlng,
+          key: process.env.SECRET_KEY_GOOGLE,
+        },
+      }
+    );
+    data = response.data;
+    res.send(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //GET a List of Restaurant
 router.get("/searchnear/:location", async (req, res, next) => {
   try {
