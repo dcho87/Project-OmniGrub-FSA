@@ -28,8 +28,6 @@ export const getGoogleRestaurant = (zipcode) => {
   };
 };
 
-// haven't set up single restaurant api route
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_REST:
