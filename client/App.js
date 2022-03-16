@@ -7,6 +7,8 @@ import { NavBar } from "./Components/NavBar/NavBar";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
 import { me } from "./store";
+import WithNav from "./Components/NavToggle/WithNav";
+import WithoutNav from "./Components/NavToggle/WithoutNav";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -19,13 +21,22 @@ export const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
         <Routes>
-          <Route path="/homeyelp" element={<HomeYelp />} />
-          <Route path="/" element={<HomeYelp />} />
-          <Route path="yelp" element={<Yelp />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="/google" element={<Google />} />
+          <Route element={<WithNav />}>
+            <Route path="/homeyelp" element={<HomeYelp />} />
+          </Route>
+          <Route element={<WithNav />}>
+            <Route path="/" element={<HomeYelp />} />
+          </Route>
+          <Route element={<WithNav />}>
+            <Route path="yelp" element={<Yelp />} />
+          </Route>
+          <Route element={<WithoutNav />}>
+            <Route path="login" element={<LoginPage />} />
+          </Route>
+          <Route element={<WithNav />}>
+            <Route path="/google" element={<Google />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

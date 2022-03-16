@@ -15,7 +15,7 @@ const theme = createTheme({
           },
     },
     typography:{
-        fontFamily:"Lato Regular"
+        fontFamily:"Lato"
     }
 })
 
@@ -44,7 +44,7 @@ export const NavBar = ()=>{
                       fontSize: "20px",
                       marginLeft: 1,
                       marginRight: 2,
-                      fontFamily: "Lato Regular",
+                      fontFamily: "Lato",
                       letterSpacing: "0.1rem",
                     }}
                   >

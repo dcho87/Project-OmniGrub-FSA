@@ -8,23 +8,23 @@ async function seed() {
 
   const [users] = await Promise.all([userSeed()]);
   // CREATING TEST DATA FOR RESTAURANTS IN CA
-  const testData = await Promise.all(
-    dataRYelp.map((restaurant, idx)=>{
-      Test.create({
-        businessId: restaurant["business_id"],
-        name: restaurant["name"],
-        address: restaurant["address"],
-        city: restaurant["city"],
-        state: restaurant["state"],
-        postalCode: restaurant["postal_code"],
-        latitude: restaurant["latitude"],
-        longitude: restaurant["longitude"],
-        stars: restaurant["stars"],
-        attributes: restaurant["attributes"],
-      })
-    })
-  )
-  console.log(`seeded ${testData.length} restaurants from Yelp Test Dataset`);
+//   const testData = await Promise.all(
+//     dataRYelp.map((restaurant, idx)=>{
+//       Test.create({
+//         businessId: restaurant["business_id"],
+//         name: restaurant["name"],
+//         address: restaurant["address"],
+//         city: restaurant["city"],
+//         state: restaurant["state"],
+//         postalCode: restaurant["postal_code"],
+//         latitude: restaurant["latitude"],
+//         longitude: restaurant["longitude"],
+//         stars: restaurant["stars"],
+//         attributes: restaurant["attributes"],
+//       })
+//     })
+//   )
+//   console.log(`seeded ${testData.length} restaurants from Yelp Test Dataset`);
   console.log(`
 
     seeded successfully!!
