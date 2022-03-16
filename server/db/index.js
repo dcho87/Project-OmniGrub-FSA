@@ -8,17 +8,17 @@ const Test = require('./models/TestData')
 const TestReview = require('./models/TestReview')
 //Associations go here
 
-Test.hasMany(TestReview, {
-  // as: 'restaurant',
-  // foreignKey: 'testId',
-  // sourceKey: 'reviewId'
-});
+// Test.hasMany(TestReview, {
+//   // as: 'restaurant',
+//   // foreignKey: 'testId',
+//   // sourceKey: 'reviewId'
+// });
 
-TestReview.belongsTo(Test, {
-  // as: 'reviewsFor',
-  foreignKey: 'restaurantId'
-  // targetKey: 'businessId',
-});
+// TestReview.belongsTo(Test, {
+//   // as: 'reviewsFor',
+//   foreignKey: 'restaurantId'
+//   // targetKey: 'businessId',
+// });
 
 
 module.exports = {

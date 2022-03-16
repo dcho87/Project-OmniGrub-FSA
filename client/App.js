@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Yelp from "./APICalls/yelp";
 import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
+
+import HomeTest from "./Home/HomeTest";
+import { NavBar } from "./Components/NavBar/NavBar";
+
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
 import { me } from "./store";
@@ -22,6 +26,10 @@ export const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
+
+          <Route element={<WithNav />}>
+            <Route path="/yelpTest" element={<HomeTest />} />
+          </Route>
           <Route element={<WithNav />}>
             <Route path="/homeyelp" element={<HomeYelp />} />
           </Route>
