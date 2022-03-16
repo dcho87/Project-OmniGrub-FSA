@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate, logout } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
+import { Or } from "./Or";
 
 const theme = createTheme({
   palette: {
@@ -41,12 +42,6 @@ export const LoginPage = () => {
     }
   };
 
-  //   const onLogout = ()=>{
-
-  //         dispatch(logout())
-
-  //   }
-
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -58,11 +53,13 @@ export const LoginPage = () => {
             flexDirection: "column",
           }}
         >
+        <Link to="/">
           <Box
             component={"img"}
             src={"pictures/Logo-Red.jpeg"}
             sx={{ height: 120, width: 360, marginTop: 6 }}
           />
+        </Link>
           <Box component="h1" sx={{ fontFamily: "Lato", marginTop: 6 }}>
             Welcome Back OmniGrubber!
           </Box>
@@ -117,63 +114,10 @@ export const LoginPage = () => {
                     Log in
                   </Button>
                 </Grid>
-                {/* <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  size="large"
-
-                  onClick={() => {
-                    dispatch(logout());
-                    navigate("/");
-                  }}
-                >
-                  Logout
-                </Button> */}
               </Grid>
             </Box>
           </Box>
-          <Box
-            component="div"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              minWidth: "450px",
-              marginTop: 4,
-              marginBottom: 4,
-            }}
-          >
-            <Box
-              component="div"
-              sx={{
-                flexGrow: 1,
-                backgroundColor: "#D1D5DB",
-                height: "0.125rem",
-              }}
-            />
-            <Box
-              component="div"
-              sx={{
-                flexGrow: 0,
-                marginLeft: "1.25rem",
-                marginRight: "1.25rem",
-                color: "#8b8f94",
-                fontFamily:"Lato"
-              }}
-            >
-              {" "}
-              OR{" "}
-            </Box>
-            <Box
-              component="div"
-              sx={{
-                flexGrow: 1,
-                backgroundColor: "#D1D5DB",
-                height: "0.125rem",
-              }}
-            />
-          </Box>
+         <Or/>
           <Box component="div" sx={{ width: "380px" }}>
               <Link to="/signup" style={{ textDecoration: 'none' }}>
             <Button
