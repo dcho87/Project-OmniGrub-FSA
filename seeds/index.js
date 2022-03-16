@@ -27,6 +27,7 @@ async function seed() {
     })
   )
   console.log(`seeded ${testData.length} restaurants from Yelp Test Dataset`);
+
   console.log(`
 
     seeded successfully!!

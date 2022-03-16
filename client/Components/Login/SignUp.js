@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { authenticate, logout } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { Or } from "./Or";
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const theme = createTheme({
   palette: {
@@ -24,9 +26,10 @@ const theme = createTheme({
   },
 });
 
-export const LoginPage = () => {
+export const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const authError = useSelector((state)=> state.auth.error)
   const {
     register,
     handleSubmit,
@@ -35,8 +38,8 @@ export const LoginPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(authenticate(data, "login"));
-      navigate("/")
+      await dispatch(authenticate(data, "signup"));
+      navigate("/");
     } catch (ex) {
       console.log(ex);
     }
@@ -61,7 +64,19 @@ export const LoginPage = () => {
           />
         </Link>
           <Box component="h1" sx={{ fontFamily: "Lato", marginTop: 6 }}>
-            Welcome Back OmniGrubber!
+            Sign up free to start ordering from the best.
+          </Box>
+          <Box component="div" sx={{maxWidth:"360px"}}>
+          <Button variant="contained" fullWidth startIcon={<FacebookIcon/>} sx={{marginTop:2, backgroundColor:'blue'}} size="large">
+              Sign up with Facebook
+          </Button>
+          <Button variant="contained" fullWidth startIcon={<GoogleIcon/>} sx={{marginTop: 4, color: "black", backgroundColor:"white"}} size="large">
+              Sign up with Google
+          </Button>
+          </Box>
+          <Or />
+          <Box component="h2" sx={{ fontFamily: "Lato", marginTop: 1 }}>
+            Sign up with your email address
           </Box>
           <Box component="div" sx={{ maxWidth: "380px" }}>
             <Box
@@ -71,6 +86,33 @@ export const LoginPage = () => {
               key={1}
             >
               <Grid container spacing={3}>
+                <Grid item xs={6} sm={6}>
+                  <TextField
+                    id="firstName"
+                    label="First Name"
+                    variant="outlined"
+                    autoFocus
+                    {...register("firstName", { required: "Required field" })}
+                    error={!!errors.firstName}
+                    helperText={
+                      errors.firstName ? errors.firstName.message : null
+                    }
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6}>
+                  <TextField
+                    id="lastName"
+                    label="Last Name"
+                    variant="outlined"
+                    {...register("lastName", { required: "Required field" })}
+                    error={!!errors.lastName}
+                    helperText={
+                      errors.lastName ? errors.lastName.message : null
+                    }
+                    fullWidth
+                  />
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
                     id="email"
@@ -110,26 +152,18 @@ export const LoginPage = () => {
                     variant="contained"
                     color="primary"
                     size="large"
+                    sx={{marginBottom:6}}
                   >
-                    Log in
+                    Sign up
                   </Button>
                 </Grid>
+                <Grid item xs={12} sm={12}>
+            {authError && authError.response && (
+              <div> {authError.response.data} </div>
+            )}
+          </Grid>
               </Grid>
             </Box>
-          </Box>
-         <Or/>
-          <Box component="div" sx={{ width: "380px" }}>
-              <Link to="/signup" style={{ textDecoration: 'none' }}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              size="large"
-            >
-              Sign up
-            </Button>
-            </Link>
           </Box>
         </Box>
       </ThemeProvider>

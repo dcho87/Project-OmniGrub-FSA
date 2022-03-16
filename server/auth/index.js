@@ -20,8 +20,17 @@ router.get("/me", async (req,res,next)=>{
     }
 });
 
-//make a login page
-//go to that login page
-//be able to login
-//set up navbar to show or not show based on the auth stuff
-//
+
+router.post("/signup", async (req,res,next)=>{
+    try{
+        const user = await User.create(req.body.data);
+        res.send({token: await user.generateToken()})
+    } catch(err){
+        if(err.name === "SequelizeUniqueConstraintError"){
+            console.log(err);
+            res.status(401).send("User already exists");
+        } else{
+            next(err);
+        }
+    }
+})

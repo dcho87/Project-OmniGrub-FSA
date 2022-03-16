@@ -10,7 +10,7 @@ const setAuth = (auth)=>({type: SET_AUTH, auth})
 
 //THUNK CREATORS
 
-//method in this case is login, so calls auth/login
+//method in this case is login or signup
 //auth/login calls the user.authenticate method using the login information set up in an object {email: "email", password:"password"}
 //first it looks for an email, if it finds an email then it does bcrypt compare on the password
 //if both are true, then it calls generateToken to create a token for the users session using jwt.sign, which is associated to the UserId
