@@ -59,11 +59,9 @@ const LocationInput = () => {
         //       margin: theme.spacing(0.5)
         //     }
         // }));
-const Category = () => {
-    const state = useSelector((state) => state);
-    const cuisines = ['Asian', 'Burger', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
-    const [ categories, setCategories ] = useState(cuisines)
-    // console.log(categories)
+const Category = ({cuisines, handleFilter}) => {
+    // const state = useSelector((state) => state);
+    
     return(
         <Paper 
             component="ul"
@@ -81,7 +79,10 @@ const Category = () => {
                     <Chip
                         label={cuisine}
                         // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
-                        
+                        // onChange={handleFilter}
+                        // value={cuisine}
+                        // name={cuisine}
+                        onClick={(ev)=>handleFilter(ev)}
                     />
                 </ListItem>
                 );
@@ -97,7 +98,29 @@ const HomeTest = () => {
     // const classes = useStyles();
     
     const [ restaurants, setRestaurants ] = useState(state.testRest.restaurants);
-    
+    const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
+    const [ category, setCategory ] = useState(cuisines);
+    const [ filtered, setFiltered ] = useState(false);
+
+    // FILTERING
+    const handleFilter = (ev) => {
+        // filtered ? setRestaurants(state.testRest.restaurants) : ''
+        let newCuisine = ev.target.textContent;
+        setCategory(newCuisine)
+        // console.log(category)
+        // console.log(ev.target.textContent)
+        let newRestList = [...state.testRest.restaurants]
+        if(newCuisine) {
+            newRestList = newRestList.filter((restaurant) => {
+                // console.log(newRestList.length);
+                return restaurant.categories.includes(newCuisine)
+            })
+            // console.log(newRestList.length)
+        }
+        setRestaurants(newRestList)
+        setFiltered(true)
+        // console.log(restaurants.length)
+    }
     useEffect(()=>{
         dispatch(getAllRest())
     }, []);
@@ -106,11 +129,11 @@ const HomeTest = () => {
         setRestaurants(state.testRest.restaurants)
     }, [state.testRest.restaurants]);
 
-    const categories = [...new Set(state.testRest.restaurants.map((restaurant) => restaurant.categories))]
-    const cleanedCat = categories.map((restCat) => restCat.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food').slice(0, 2)).join(', ')
+    const cuisinesDisplay = [...new Set(state.testRest.restaurants.map((restaurant) => restaurant.categories))]
+    const cleanedCat = cuisinesDisplay.map((restCat) => restCat.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food').slice(0, 2)).join(', ')
     
     const theme = createTheme();
-
+    console.log(restaurants.length)
     return(
         <ThemeProvider theme={theme}>
             <main>
@@ -153,15 +176,23 @@ const HomeTest = () => {
                     style={{ 
                         display: 'flex', 
                         overflow: 'auto',
-                        // maxHeight: '400px',
+                        maxHeight: '500px',
                         // maxWidth: '1000px'
                         padding: '2rem'
                     }}
                 >
-                    <Category />
+                    <Category cuisines={cuisines} handleFilter={handleFilter} />
                     <Container
                         // sx={{ py: 8}} 
-                        maxWidth="md"
+                        // maxWidth="md"
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            overflow: 'auto'
+
+                        }}
+
                     >
                         <Grid container spacing={4}>
                             { restaurants.map((restaurant, idx) => {
@@ -183,17 +214,17 @@ const HomeTest = () => {
                                                 >
                                                     {restaurant.name} 
                                                 </Typography>
-                                                <CardMedia 
+                                                {/* <CardMedia 
                                                     component="img"
                                                     image='pictures/testPhoto.jpg'
                                                     title={restaurant.name}
-                                                />
+                                                /> */}
                                                 <Typography>
                                                     Average Rating: 
                                                     <Rating name="read-only" value={restaurant.stars * 1} readOnly />
                                                 </Typography>
                                                 <Typography>
-                                                    {restaurant.categories.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food' && c !== 'Food Delivery Services').slice(0, 2).join(', ')}
+                                                    {/* {restaurant.categories.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food' && c !== 'Food Delivery Services').slice(0, 2).join(', ')} */}
                                                 </Typography>
                                                 <Typography>
                                                     reviews: 
