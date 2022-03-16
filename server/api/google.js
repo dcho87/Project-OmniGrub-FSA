@@ -49,12 +49,11 @@ router.get("/searchnear/:location", async (req, res, next) => {
           }
         );
         response.data.results.push(...page.data.results);
-      }, 3000);
+      }, 2000);
     }
     setTimeout(() => {
-      console.log(response.data.results);
       res.send(response.data);
-    }, 9000);
+    }, 8000);
   } catch (err) {
     next(err);
   }
