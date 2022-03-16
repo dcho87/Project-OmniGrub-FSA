@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Yelp from "./APICalls/yelp";
 import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
+import HomeTest from "./Home/HomeTest";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
@@ -23,6 +24,7 @@ export const App = () => {
         <Routes>
           <Route path="/homeyelp" element={<HomeYelp />} />
           <Route path="/" element={<HomeYelp />} />
+          <Route path="/yelpTest" element={<HomeTest />} exact/>
           <Route path="yelp" element={<Yelp />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="/google" element={<Google />} />

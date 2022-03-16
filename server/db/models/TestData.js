@@ -3,13 +3,9 @@ const Sequelize = require('sequelize')
 const { STRING, INTEGER, DECIMAL, TEXT, DATE, JSON } = Sequelize;
 
 const Test = db.define('test', {
-    id: {
-        type: INTEGER,
-        autoIncrement: true
-    },
     businessId: {
         type: STRING,
-        primaryKey: true
+        // primaryKey: true
     },
     name: {
         type: STRING,
@@ -36,9 +32,12 @@ const Test = db.define('test', {
         type: DECIMAL 
         // not showing the decimal point
     },
-    attributes: {
-        type: JSON,
-    },
+    reviewCounts: {
+        type: INTEGER
+    }, 
+    categories: {
+        type: STRING
+    }
 })
 
 module.exports = Test;

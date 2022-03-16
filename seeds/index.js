@@ -15,12 +15,14 @@ async function seed() {
         name: restaurant["name"],
         address: restaurant["address"],
         city: restaurant["city"],
-        state: restaurant["state"],
+        state: 'CA',
         postalCode: restaurant["postal_code"],
         latitude: restaurant["latitude"],
         longitude: restaurant["longitude"],
         stars: restaurant["stars"],
-        attributes: restaurant["attributes"],
+        // attributes: restaurant["attributes"],
+        reviewCounts: restaurant["review_count"],
+        categories: restaurant["categories"],
       })
     })
   )
