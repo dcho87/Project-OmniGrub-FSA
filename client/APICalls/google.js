@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getGoogleRestaurant } from "../store";
+import { getGoogleRestaurant, reverseGeocode } from "../store";
 
 const Google = () => {
   const dispatch = useDispatch();
   const [zipcode, setZipcode] = useState("");
 
+  function getPosition() {
+    return new Promise((success) =>
+      navigator.geolocation.getCurrentPosition(success)
+    );
+  }
+
+  useEffect(async () => {
+    const p = await getPosition();
+    dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
+  }, []);
+
   const onChange = (ev) => {
     setZipcode(ev.target.value);
+    console.log(latitude, longitude);
   };
 
   const onSubmit = (ev) => {
