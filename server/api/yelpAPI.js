@@ -11,7 +11,7 @@ router.get("/:zip", async (req, res, next) => {
         },
         params: {
           location: req.params.zip,
-          //   categories: "coffee",
+          limit: 50,
         },
       })
       .then((response) => {

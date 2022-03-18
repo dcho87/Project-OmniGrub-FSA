@@ -45,7 +45,7 @@ router.get("/geocode/reverse/:latlng", async (req, res, next) => {
 //GET a List of Restaurant
 router.get("/searchnear/:location", async (req, res, next) => {
   try {
-    const response = await axios.get(
+    let response = await axios.get(
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       {
         params: {
@@ -57,21 +57,41 @@ router.get("/searchnear/:location", async (req, res, next) => {
         },
       }
     );
-    for (let i = 0; i < 3; i++) {
-      setTimeout(async () => {
+    //tokenArray will hold all the tokens that are provided with each API call. Each call produces a different token
+    const tokenArray = [response.data.next_page_token];
+    //This is done as an alternative because prior to this setup, each loop was running WITHOUT waiting for the timer to finish
+    const delay = (ms) => {
+      return new Promise((resolve, reject) => setTimeout(resolve, ms));
+    };
+    const loopNextCalls = async () => {
+      for (let i = 0; i < 3; i++) {
+        await delay(2000);
         const page = await axios.get(
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
           {
             params: {
               key: process.env.SECRET_KEY_GOOGLE,
-              pagetoken: response.data.next_page_token,
+              pagetoken: tokenArray[i],
             },
           }
         );
+
+        tokenArray.push(page.data.next_page_token);
+
         response.data.results.push(...page.data.results);
-      }, 2000);
-    }
+      }
+    };
+    loopNextCalls();
+
     setTimeout(() => {
+      /* script responsible for showing what response.data looks like cleaned up */
+      const google = response.data;
+      const sort = google.results.sort((a, b) => (a.name > b.name ? 1 : -1));
+      const map = sort.map((e) => {
+        return [e.name, e.geometry.location.lat];
+      });
+      console.log(map, "map");
+      //Last line that sends out to the front end
       res.send(response.data);
     }, 8000);
   } catch (err) {
