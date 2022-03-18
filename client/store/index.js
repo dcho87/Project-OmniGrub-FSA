@@ -6,6 +6,7 @@ import testRest from "./testRest";
 import counterSlice from "./counterSlice";
 import yelpSlice from "./yelpSlice";
 import googleStore from "./googleStore";
+import flashMessage from "./flashMessage";
 import auth from './auth'
 import * as actionCreators from "../store";
 
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   yelpSlice,
   googleStore,
   auth,
+  flashMessage,
 });
 
 let middleware;
@@ -38,3 +40,4 @@ export * from "./counterSlice";
 export * from "./yelpSlice";
 export * from "./googleStore";
 export * from './auth'
+export * from './flashMessage'
