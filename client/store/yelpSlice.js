@@ -23,7 +23,7 @@ export const findNearby = (zip) => {
 export default (state = [], action) => {
   switch (action.type) {
     case FIND_SPOTS:
-      return [...state, action.nearBySpots];
+      return [action.nearBySpots];
     default:
       return state;
   }
