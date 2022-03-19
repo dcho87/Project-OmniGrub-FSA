@@ -19,7 +19,6 @@ const Google = () => {
 
   const onChange = (ev) => {
     setZipcode(ev.target.value);
-    console.log(latitude, longitude);
   };
 
   const onSubmit = (ev) => {

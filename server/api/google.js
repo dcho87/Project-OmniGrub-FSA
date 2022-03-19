@@ -57,7 +57,7 @@ router.get("/searchnear/:location", async (req, res, next) => {
         },
       }
     );
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       setTimeout(async () => {
         const page = await axios.get(
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
@@ -69,11 +69,11 @@ router.get("/searchnear/:location", async (req, res, next) => {
           }
         );
         response.data.results.push(...page.data.results);
-      }, 2000);
+      }, 1800);
     }
     setTimeout(() => {
       res.send(response.data);
-    }, 8000);
+    }, 4000);
   } catch (err) {
     next(err);
   }
@@ -89,6 +89,24 @@ router.get("/placedata", async (req, res, next) => {
           key: process.env.SECRET_KEY_GOOGLE,
           place_id: "ChIJkwNptPhYwokRFVgCsuHriwI",
           fields: ["name", "rating", "formatted_phone_number", "geometry"],
+        },
+      }
+    );
+    res.send(response.data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Google Autocomplete
+router.get("/location", async (req, res, next) => {
+  try {
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/json",
+      {
+        params: {
+          key: process.env.SECRET_KEY_GOOGLE,
+          libraries: "places",
         },
       }
     );
