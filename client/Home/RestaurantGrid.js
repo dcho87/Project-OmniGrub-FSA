@@ -3,47 +3,62 @@ import { Box, Container, Typography, TextField, Grid, Card,
     CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
     IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem
 } from '@mui/material';
+import { makeStyles } from '@material-ui/core'
 import GoogleIcon from '@mui/icons-material/Google';
-
+import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCardMedia } from '../styles';
 
 const RestaurantGrid = ({ restaurants }) => {
+    restaurants = restaurants.currentData();
+    const classes = useStyles();
+    const googleReviews = Math.floor(Math.random() * 100)
+    const googleRating = Math.floor(Math.random() * 5)
     return(
         <>
             { 
-                restaurants.map((restaurant, idx) => {
+                restaurants.map((restaurant) => {
                     return(
-                        <Grid item
+                        <Box 
                             key={restaurant.id}
-                            xs={12} sm={6} md={4}
+                            className={classes.singleBoxes}
                         >
-                            <Card
-                                // sx={{ height: '100%', display: 'flex', flexDirection: 'column'}}
+                            <FiCard
+                                className={classes.card}
                             >
-                                <CardContent
-                                    sx={{ flexGrow: 1}}
+                                <FiCardMedia
+                                    media="picture"
+                                    alt={restaurant.name}
+                                    image='pictures/testPhoto.jpg'
+                                    title={restaurant.name}
+                                />
+                                <FiCardContent
+                                    className={classes.fiCardContent}
                                 >
                                     <Typography
-                                        gutterBottom
-                                        variant='h5'
-                                        component='h2'
+                                            gutterBottom
+                                            variant='h5'
+                                            component='h2'
                                     >
                                         {restaurant.name} 
                                     </Typography>
-                                    {/* <CardMedia 
-                                        component="img"
-                                        image='pictures/testPhoto.jpg'
-                                        title={restaurant.name}
-                                    /> */}
                                     <Typography>
-                                        Average Rating: 
-                                        <Rating name="read-only" value={restaurant.stars * 1} readOnly />
+                                        {/* Average Rating:  */}
+                                        <Rating name="read-only" value={ parseFloat(((restaurant.stars * 1 * restaurant.reviewCounts/(restaurant.reviewCounts + googleReviews)) + (googleRating * googleReviews/(restaurant.reviewCounts + googleReviews))).toFixed(1))} readOnly />
+                                        ({ parseFloat(((restaurant.stars * 1 * restaurant.reviewCounts/(restaurant.reviewCounts + googleReviews)) + (googleRating * googleReviews/(restaurant.reviewCounts + googleReviews))).toFixed(1))})
                                     </Typography>
                                     <Typography>
-                                        {/* {restaurant.categories.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food' && c !== 'Food Delivery Services').slice(0, 2).join(', ')} */}
+                                        {restaurant.categories.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food' && c !== 'Food Delivery Services').slice(0, 2).join(', ')}
                                     </Typography>
-                                    <Typography>
-                                        reviews: 
-                                        <IconButton sx={{ p: '1px' }}>
+                                    <Box className={classes.comparison}>
+                                        <Typography>
+                                            Yelp: 
+                                        </Typography>
+                                        <Divider orientation="vertical" flexItem></Divider>
+                                        <Typography>
+                                            Google:
+                                        </Typography>
+                                    </Box>
+                                    {/* <Typography> */}
+                                        {/* <IconButton sx={{ p: '1px' }}>
                                             <Box
                                                 component="img"
                                                 style={{
@@ -56,14 +71,12 @@ const RestaurantGrid = ({ restaurants }) => {
                                         </IconButton>
                                         <span>&nbsp;</span>
                                         <IconButton sx={{ p: '1px' }}>
-                                            <GoogleIcon /> ({Math.floor(Math.random() * 100)})
-                                        </IconButton>
-                                    </Typography>
-
-                                </CardContent>
-                            </Card>
-
-                        </Grid> 
+                                            <GoogleIcon /> ({googleReviews})
+                                        </IconButton> */}
+                                    {/* </Typography> */}
+                                </FiCardContent>
+                            </FiCard>
+                        </Box>
                     )
                     })
             }

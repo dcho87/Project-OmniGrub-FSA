@@ -3,6 +3,7 @@ import { Box, Container, Typography, TextField, Grid, Card,
     CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
     IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem
 } from '@mui/material';
+import { useStyles, FiList, FiChip } from '../styles';
 
  // const useStyles = makeStyles((theme) => ({
         //     root: {
@@ -20,27 +21,27 @@ import { Box, Container, Typography, TextField, Grid, Card,
         //     }
         // }));
 const Category = ({cuisines, handleFilter}) => {
-    
+    const classes = useStyles();
+
     return(
         <Paper 
             component="ul"
-            style={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                overflow: 'auto',
-                maxHeight: '400px',
-                maxWidth: '200px'
-            }}
+            className={classes.category}
         >
             { cuisines.map((cuisine, idx) => {
                 return (
-                <ListItem key={idx}>
-                    <Chip
+                
+                <FiList key={idx}>
+                    <FiChip 
+                        label={cuisine}
+                        onClick={(ev)=>handleFilter(ev)}
+                    ></FiChip>
+                    {/* <Chip
                         label={cuisine}
                         // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
                         onClick={(ev)=>handleFilter(ev)}
-                    />
-                </ListItem>
+                    /> */}
+                </FiList>
                 );
             })}
 
