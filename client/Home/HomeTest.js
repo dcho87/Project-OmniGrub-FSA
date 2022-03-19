@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getAllRest } from '../store';
 import { Box, Container, Typography, TextField, Grid, Card, 
     CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
@@ -20,7 +20,7 @@ const HomeTest = () => {
     
     const [ restaurants, setRestaurants ] = useState(state.testRest.restaurants);
     // PAGINATION
-    let [page, setPage] = useState(1);
+    let [ page, setPage ] = useState(1);
     const countPerPage = 7;
     const count = Math.ceil(restaurants.length / countPerPage)
     const _restaurants = usePagination(restaurants, count)
@@ -73,7 +73,6 @@ const HomeTest = () => {
             <main className={classes.root}>
                 <Box 
                     sx={{ bgcolor: 'background.paper', pt: 8, pb: 6 }}
-                    
                 >
                     <Container 
                         maxWidth="sm" 
@@ -107,14 +106,7 @@ const HomeTest = () => {
                     </Container>
 
                 </Box>
-                <Pagination
-                    count={count}
-                    size="large"
-                    page={page}
-                    variant="outlined"
-                    shape="rounded"
-                    onChange={changePage}
-                />
+                    
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
                     <RestaurantGrid 
@@ -122,7 +114,15 @@ const HomeTest = () => {
                         restaurants={_restaurants} 
                     /> 
                 </Paper>
-                
+                <Pagination
+                    className={classes.pagination}
+                    count={count}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={changePage}
+                />
             </main>
 
         // </ThemeProvider>

@@ -127,6 +127,12 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-around'
     },
+    pagination: {
+        margin: '3rem',
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'red'
+    }
 }))
 
 export default {
