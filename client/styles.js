@@ -77,7 +77,18 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         maxHeight: '40vh',
-        padding: '2rem'
+        padding: '2rem',
+        "&::-webkit-scrollbar": {
+            width: 1
+        },
+        "&::-webkit-scrollbar-track": {
+            backgroundColor: "#FFF"
+        },
+        "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#FFF",
+            borderRadius: 2
+        }
+        
     },
     // containerRest: {
         // marginLeft: '5rem'

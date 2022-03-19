@@ -9,7 +9,6 @@ import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCa
 
 const RestaurantGrid = ({ restaurants }) => {
     restaurants = restaurants.currentData();
-    console.log(restaurants);
     const classes = useStyles();
     const googleReviews = Math.floor(Math.random() * 100)
     const googleRating = Math.floor(Math.random() * 5)
