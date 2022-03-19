@@ -93,7 +93,7 @@ router.get("/searchnear/:location", async (req, res, next) => {
       console.log(map, "map");
       //Last line that sends out to the front end
       res.send(response.data);
-    }, 4000);
+    }, 8000);
   } catch (err) {
     next(err);
   }
