@@ -4,6 +4,17 @@
     <title>OmniGrub</title>
     <script defer src="/bundle.js"></script>
     <style>
+      #loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+      h3 {
+        text-align: center;
+      }
       #resList {
         display: flex;
         flex-wrap: wrap;
@@ -17,27 +28,41 @@
         width: calc(100% / 4 - 40px);
         margin: 10px;
         padding: 10px;
-        transition: box-shadow 0.5s;
+        transition: box-shadow 0.2s;
         overflow: hidden;
       }
       #resBox > li {
         list-style: none;
         text-align: center;
       }
-      #resBox > li > img {
-        max-width: 200px;
-        max-height: 200px;
-        margin: 10px;
-      }
-      #resBox:hover {
+      /* #resBox:hover {
         box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 20px,
           rgba(0, 0, 0, 0.22) 0px 15px 12px;
+      } */
+      #resBox:hover {
+        box-shadow: rgba(102, 0, 0, 0.3) 0px 19px 20px,
+          rgba(109, 9, 9, 0.22) 0px 15px 12px;
+      }
+      #cardPic {
+        object-fit: cover;
+        width: 100%;
+        height: 250px;
+      }
+      #cardTable {
+        width: 100%;
       }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Smooch+Sans:wght@500&display=swap" rel="stylesheet">
-    <link rel="icon" type="img/png" href="https://jweyarecipe.com/wp-content/uploads/2021/05/logo-2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Smooch+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="img/png"
+      href="https://jweyarecipe.com/wp-content/uploads/2021/05/logo-2.png"
+    />
   </head>
   <body>
     <div id="app"></div>
