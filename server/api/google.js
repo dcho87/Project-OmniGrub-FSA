@@ -52,7 +52,7 @@ router.get("/searchnear/:location", async (req, res, next) => {
           key: process.env.SECRET_KEY_GOOGLE,
           location: req.params.location,
           radius: 1500,
-          type: "restaurant",
+          keyword: "restaurant",
           pagetoken: "",
         },
       }

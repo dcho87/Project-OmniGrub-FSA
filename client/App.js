@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Yelp from "./APICalls/yelp";
 import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
 
@@ -26,7 +25,6 @@ export const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-
           <Route element={<WithNav />}>
             <Route path="/yelpTest" element={<HomeTest />} />
           </Route>
@@ -36,14 +34,11 @@ export const App = () => {
           <Route element={<WithNav />}>
             <Route path="/" element={<HomeYelp />} />
           </Route>
-          <Route element={<WithNav />}>
-            <Route path="yelp" element={<Yelp />} />
-          </Route>
           <Route element={<WithoutNav />}>
             <Route path="login" element={<LoginPage />} />
           </Route>
-          <Route element={<WithoutNav/>}>
-              <Route path="signup" element={<SignUp/>}/>
+          <Route element={<WithoutNav />}>
+            <Route path="signup" element={<SignUp />} />
           </Route>
           <Route element={<WithNav />}>
             <Route path="/google" element={<Google />} />
