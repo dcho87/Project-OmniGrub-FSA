@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
-
 import HomeTest from "./Home/HomeTest";
 import { NavBar } from "./Components/NavBar/NavBar";
-
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
 import { me } from "./store";
 import WithNav from "./Components/NavToggle/WithNav";
 import WithoutNav from "./Components/NavToggle/WithoutNav";
 import { SignUp } from "./Components/Login/SignUp";
+import { FlashMessage } from "./Components/FlashMessage/FlashMessage";
+
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ export const App = () => {
   return (
     <div>
       <BrowserRouter>
+        <FlashMessage/>
         <Routes>
           <Route element={<WithNav />}>
             <Route path="/yelpTest" element={<HomeTest />} />

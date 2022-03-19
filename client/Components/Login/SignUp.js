@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Or } from "./Or";
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import { setflashMessage } from "../../store/flashMessage";
 
 const theme = createTheme({
   palette: {
@@ -38,7 +39,10 @@ export const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(authenticate(data, "signup"));
+      await dispatch(authenticate(data, "signup"))
+      .then(()=>{
+        dispatch(setflashMessage(true,"success","Welcome to OmniGrub!"))
+    })
       navigate("/");
     } catch (ex) {
       console.log(ex);

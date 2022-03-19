@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authenticate, logout } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { Or } from "./Or";
+import { setflashMessage } from "../../store/flashMessage";
 
 const theme = createTheme({
   palette: {
@@ -35,8 +36,12 @@ export const LoginPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(authenticate(data, "login"));
-      navigate("/")
+      await dispatch(authenticate(data, "login"))
+      .then(()=>{
+        dispatch(setflashMessage(true,"success","You have successfully logged in"))
+    })
+    navigate("/")
+
     } catch (ex) {
       console.log(ex);
     }
