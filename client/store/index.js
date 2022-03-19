@@ -5,6 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import testRest from "./testRest";
 import counterSlice from "./counterSlice";
 import yelpSlice from "./yelpSlice";
+import fourSlice from "./fourSlice";
 import googleStore from "./googleStore";
 import flashMessage from "./flashMessage";
 import auth from './auth'
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   testRest,
   counterSlice,
   yelpSlice,
+  fourSlice,
   googleStore,
   auth,
   flashMessage,
@@ -38,6 +40,7 @@ export default store;
 export * from "./testRest";
 export * from "./counterSlice";
 export * from "./yelpSlice";
+export * from "./fourSlice";
 export * from "./googleStore";
 export * from './auth'
 export * from './flashMessage'
