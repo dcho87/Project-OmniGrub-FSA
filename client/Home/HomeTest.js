@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getAllRest } from '../store';
-import { Box, Container, Typography, TextField, Grid, Card, 
-    CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
-    IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem, Pagination
-} from '@mui/material';
-// import { useFormControl } from '@mui/material/FormControl';
+import { Box, Container, Typography, Paper, Pagination } from '@mui/material';
 import RestaurantGrid from './RestaurantGrid';
 import Category from './Category';
 import LocationInput from './LocationInput';
@@ -28,11 +24,11 @@ const HomeTest = () => {
     const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
-    
+    // STATE DISPATCH
     useEffect(()=>{
         dispatch(getAllRest())
     }, []);
-
+    // SETTING RESTAURANT STATE
     useEffect(()=>{
         setRestaurants(state.testRest.restaurants)
     }, [state.testRest.restaurants]);

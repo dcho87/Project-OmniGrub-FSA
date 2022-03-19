@@ -1,8 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, TextField, Grid, Card, 
-    CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
-    IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem
-} from '@mui/material';
+import { Box, Typography, Rating, Divider } from '@mui/material';
 import { makeStyles } from '@material-ui/core'
 import GoogleIcon from '@mui/icons-material/Google';
 import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCardMedia } from '../styles';

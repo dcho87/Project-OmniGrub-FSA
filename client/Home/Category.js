@@ -1,8 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, TextField, Grid, Card, 
-    CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
-    IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem
-} from '@mui/material';
+import { Paper } from '@mui/material';
 import { useStyles, FiList, FiChip } from '../styles';
 
  // const useStyles = makeStyles((theme) => ({

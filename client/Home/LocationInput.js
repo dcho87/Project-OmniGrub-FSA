@@ -1,8 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, TextField, Grid, Card, 
-    CardContent, Paper, Rating, FormControl, InputLabel, OutlinedInput,
-    IconButton, InputBase, Divider, CardMedia, Chip, Stack, ListItem
-} from '@mui/material';
+import { Paper, IconButton, InputBase, Divider } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
