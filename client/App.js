@@ -5,6 +5,7 @@ import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
 
 import HomeTest from "./Home/HomeTest";
+import Home from "./Home/Home";
 import { NavBar } from "./Components/NavBar/NavBar";
 
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
@@ -27,6 +28,9 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
 
+          <Route element={<WithNav />}>
+            <Route path="/homeFinal" element={<Home />} />
+          </Route>
           <Route element={<WithNav />}>
             <Route path="/yelpTest" element={<HomeTest />} />
           </Route>

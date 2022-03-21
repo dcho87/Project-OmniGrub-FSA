@@ -1,13 +1,8 @@
 import axios from "axios";
-
-// INITIAL STATE
-const initialState = {
-  gRest: [],
-};
+import { findNearby } from "./yelpSlice";
 
 // ACTION TYPES CONSTANTS
 const GET_ALL_REST = "GET_ALL_REST";
-const GET_SINGLE_REST = "GET_SINGLE_REST";
 
 // ACTION CREATORS
 const _getGoogleRestaurant = (gRest) => ({
@@ -35,10 +30,11 @@ export const reverseGeocode = (lat, lng) => {
       .data;
     const zipcode = geoData.results[0].address_components[6].long_name;
     dispatch(getGoogleRestaurant(zipcode));
+    dispatch(findNearby(zipcode));
   };
 };
 
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case GET_ALL_REST:
       return { ...state, gRest: action.gRest };

@@ -7,15 +7,14 @@ import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCa
 const RestaurantGrid = ({ restaurants }) => {
     restaurants = restaurants.currentData();
     const classes = useStyles();
-    const googleReviews = Math.floor(Math.random() * 100)
-    const googleRating = Math.floor(Math.random() * 5)
     return(
         <>
             { 
-                restaurants.map((restaurant) => {
+                restaurants.map((restaurant, idx) => {
+                    // console.log(restaurant)
                     return(
                         <Box 
-                            key={restaurant.id}
+                            key={idx}
                             className={classes.singleBoxes}
                         >
                             <FiCard
@@ -24,7 +23,7 @@ const RestaurantGrid = ({ restaurants }) => {
                                 <FiCardMedia
                                     media="picture"
                                     alt={restaurant.name}
-                                    image='pictures/testPhoto.jpg'
+                                    image={restaurant.image}
                                     title={restaurant.name}
                                 />
                                 <FiCardContent
@@ -39,21 +38,23 @@ const RestaurantGrid = ({ restaurants }) => {
                                     </Typography>
                                     <Typography>
                                         {/* Average Rating:  */}
-                                        <Rating name="read-only" value={ parseFloat(((restaurant.stars * 1 * restaurant.reviewCounts/(restaurant.reviewCounts + googleReviews)) + (googleRating * googleReviews/(restaurant.reviewCounts + googleReviews))).toFixed(1))} readOnly />
-                                        ({ parseFloat(((restaurant.stars * 1 * restaurant.reviewCounts/(restaurant.reviewCounts + googleReviews)) + (googleRating * googleReviews/(restaurant.reviewCounts + googleReviews))).toFixed(1))})
+                                        <Rating name="read-only" value={ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) } readOnly />
+                                        ({ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) })
                                     </Typography>
                                     <Typography>
-                                        {restaurant.categories.split(', ').filter(c => c !== 'Restaurants' && c !== 'Food' && c !== 'Food Delivery Services').slice(0, 2).join(', ')}
+                                        {restaurant.category.join(', ')}
                                     </Typography>
                                     <Box className={classes.comparison}>
                                         <Typography>
-                                            Yelp: 
+                                            Yelp: {restaurant.yRating}
                                         </Typography>
-                                        <Divider orientation="vertical" flexItem></Divider>
+                                        {/* <Divider orientation="vertical" flexItem></Divider> */}
+                                        <span> &nbsp; </span>
                                         <Typography>
-                                            Google:
+                                            Google: {restaurant.gRating}
                                         </Typography>
                                     </Box>
+                                
                                     {/* <Typography> */}
                                         {/* <IconButton sx={{ p: '1px' }}>
                                             <Box

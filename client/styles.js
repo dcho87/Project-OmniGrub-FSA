@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-// import { Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material'
 import { ListItem, Chip, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core'
+// import { Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material'
 
 export const FiList = withStyles({
     root: {
@@ -71,12 +71,22 @@ export const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFF',
     },
+    // navBar{
+        
+    // },
+    hero: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     containerBoth: {
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFF',
         // padding: theme.spacing(4, 0, 6),
         display: 'flex',
         overflow: 'auto',
         maxHeight: '40vh',
+        margin: '1rem',
         padding: '2rem',
         "&::-webkit-scrollbar": {
             width: 1
