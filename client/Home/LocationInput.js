@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 // import { getGoogleRestaurant, reverseGeocode, findNearby } from '../store';
 
-const LocationInput = ({ zip, onChange, onSubmit }) => {
+const LocationInput = ({ zip, geoCode, onChange, onSubmit }) => {
     return(
         <Paper
             component="form"

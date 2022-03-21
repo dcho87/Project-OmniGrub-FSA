@@ -75,6 +75,21 @@ export const useStyles = makeStyles((theme) => ({
         },
         '& .MuiSvgIcon-root': {
             fill: "#E74E35"
+        },
+        '& .MuiPaginationItem-root.Mui-selected': {
+            backgroundColor: "#E74E35"
+        },
+        // '& .MuiChip-root.Mui-selected':{
+        //     backgroundColor: "#E74E35"
+        // },
+        '& .MuiCard-root': {
+            borderRadius: '16px'
+        },
+        '& .MuiContainer-root':{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
         }
     },
     navBar: {
@@ -135,9 +150,6 @@ export const useStyles = makeStyles((theme) => ({
         minHeight: '30vh',
         margin: '2rem',
     },
-    media: {
-        // height: '140'
-    },
     fiCardContent: {
         color: "#ffffff",
         minHeight: '30vh',
@@ -152,10 +164,9 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around'
     },
     pagination: {
-        margin: '3rem',
+        margin: '2rem',
         display: 'flex',
         justifyContent: 'center',
-        color: 'red'
     }
 }))
 

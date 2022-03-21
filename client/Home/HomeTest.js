@@ -51,18 +51,6 @@ const HomeTest = () => {
         setPage(p)
         _restaurants.jump(p)
     }
-    // LOCATION DANIEL
-    function getPosition() {
-        return new Promise((success) =>
-            navigator.geolocation.getCurrentPosition(success)
-        );
-    }
-    async function geoCode() {
-        const p = await getPosition();
-        dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
-    }
-
-    
     return(
             <main className={classes.root}>
                 <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 6 }}>
@@ -99,8 +87,8 @@ const HomeTest = () => {
                     count={count}
                     size="large"
                     page={page}
-                    variant="outlined"
-                    shape="rounded"
+                    // variant="outlined"
+                    // shape="rounded"
                     onChange={changePage}
                 />
             </main>

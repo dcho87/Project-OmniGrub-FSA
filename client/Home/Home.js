@@ -124,10 +124,19 @@ const Home = () => {
         setPage(p)
         _totalRests.jump(p)
     }
+    // GETTING USER'S LOCATION
+    function getPosition() {
+        return new Promise((success) =>
+            navigator.geolocation.getCurrentPosition(success)
+        );
+    }
+    async function geoCode() {
+        const p = await getPosition();
+        dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
+    }
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
-            {/* <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 6 }}> */}
                 <Container maxWidth="sm" className={classes.hero}>
                     <Typography
                         variant="h2"
@@ -137,7 +146,7 @@ const Home = () => {
                     >
                         Your views to all reviews
                     </Typography>
-                    <LocationInput zip={zip} onChange={onChange} onSubmit={onSubmit} />
+                    <LocationInput zip={zip} onChange={onChange} onSubmit={onSubmit} geoCode={geoCode} />
                 </Container>
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
@@ -148,8 +157,6 @@ const Home = () => {
                     count={count}
                     size="large"
                     page={page}
-                    variant="outlined"
-                    shape="rounded"
                     onChange={changePage}
                 />
             </Box>
