@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Typography, Rating, Divider } from '@mui/material';
-import { makeStyles } from '@material-ui/core'
 import GoogleIcon from '@mui/icons-material/Google';
 import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCardMedia } from '../styles';
 
@@ -42,7 +41,7 @@ const RestaurantGrid = ({ restaurants }) => {
                                         ({ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) })
                                     </Typography>
                                     <Typography>
-                                        {restaurant.category.join(', ')}
+                                        {/* {restaurant.category.join(', ')} */}
                                     </Typography>
                                     <Box className={classes.comparison}>
                                         <Typography>

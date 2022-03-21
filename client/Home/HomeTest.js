@@ -12,14 +12,9 @@ import { useStyles } from '../styles';
 const HomeTest = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    console.log(state);
     const classes = useStyles();
     // const theme = createTheme();
     const [ restaurants, setRestaurants ] = useState(state.testRest.restaurants);
-    // YELP, GOOGLE API
-    const [ zipcode, setZipcode ] = useState("");
-    const [ zip, setZip ] = useState("");
-
     // PAGINATION
     let [ page, setPage ] = useState(1);
     const countPerPage = 7;
@@ -29,26 +24,6 @@ const HomeTest = () => {
     const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
-    // LOCATION KENNETH
-    const onChange = (ev) => {
-        setZip({ ...zip, zip: ev.target.value });
-        // setZipcode(ev.target.value);
-    };
-    
-    const onSubmit = (ev) => {
-        console.log('in submit')
-        ev.preventDefault();
-        try {
-            console.log('ready to find nearby')
-            dispatch(findNearby(zip.zip));
-            // dispatch(getGoogleRestaurant(zip.zip));
-            // dispatch(getGoogleRestaurant(zipcode));
-            // dispatch(findNearby(zipcode));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    
     // STATE DISPATCH
     useEffect(()=>{
         dispatch(getAllRest())
@@ -67,11 +42,7 @@ const HomeTest = () => {
         let newCuisine = ev.target.textContent;
         setCategory(newCuisine)
         let newRestList = [...state.testRest.restaurants]
-        if(newCuisine) {
-            newRestList = newRestList.filter((restaurant) => {
-                return restaurant.categories.includes(newCuisine)
-            })
-        }
+        if(newCuisine) newRestList = newRestList.filter((restaurant) => restaurant.categories.includes(newCuisine))
         setRestaurants(newRestList)
         setFiltered(true)
     }
@@ -90,66 +61,9 @@ const HomeTest = () => {
         const p = await getPosition();
         dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
     }
-    // FROM HOMEYELP
-    let currentSpots = [];
-    //Loads Yelp array first while waiting for Google array to load
-    if (state.yelpSlice[0])
-        currentSpots = state.yelpSlice[0].businesses
-        .map((e) => {
-            return {
-                name: e.name,
-                yRating: e.rating,
-                yLat: e.coordinates.latitude,
-                image: e.image_url,
-                yTotal: e.review_count,
-            };
-        })
-    
-    //Loads both once Google array is loaded
-    if (state.yelpSlice[0] && state.googleStore.gRest) {
-        const yelpArray = state.yelpSlice[0].businesses;
-        const googArray = state.googleStore.gRest;
-        //Grab attributes you want from yelp here
-        const cleanYelp = yelpArray.map((e) => {
-        return {
-            name: e.name,
-            yRating: e.rating,
-            yLat: e.coordinates.latitude,
-            image: e.image_url,
-            yTotal: e.review_count,
-        };
-        });
-    //Grab attributes you want from Google here
-    const cleanGoogle = googArray.map((e) => {
-        return {
-          name: e.name,
-          Googlerating: e.rating,
-          lat: e.geometry.location.lat,
-          gTotal: e.user_ratings_total,
-          gId: e.place_id,
-        };
-      });
-    //Merge the two arrays together
-    const combined = cleanYelp
-        .map((e) => {
-            cleanGoogle.forEach((x) => {
-                if (x.name === e.name) {
-                    e.gRating = x.Googlerating;
-                    e.gLat = x.lat;
-                    e.gTotal = x.gTotal;
-                    e.gId = x.gId;
-                } else {
-                    e.gRating = e.gRating > 0 ? e.gRating : 0;
-                    e.gTotal = e.gTotal > 0 ? e.gTotal : 0;
-                }
-            });
-            return e;
-        })
-        currentSpots = combined;
-    }
+
     
     return(
-        // <ThemeProvider theme={theme}>
             <main className={classes.root}>
                 <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 6 }}>
                     <Container 
@@ -171,7 +85,7 @@ const HomeTest = () => {
                                 Your views to all reviews
                             </Typography>
                             
-                            <LocationInput zip={zip} geoCode={geoCode} onChange={onChange} onClick={onSubmit} />
+                            {/* <LocationInput zip={zip} geoCode={geoCode} onChange={onChange} onClick={onSubmit} /> */}
 
                     </Container>
                 </Box>
@@ -190,8 +104,6 @@ const HomeTest = () => {
                     onChange={changePage}
                 />
             </main>
-
-        // </ThemeProvider>
     )
 }
 

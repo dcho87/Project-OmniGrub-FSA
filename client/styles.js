@@ -69,11 +69,17 @@ export const FiCardMedia = withStyles({
 
 export const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFF',
+        // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFF',
+        '& .MuiToolbar-root': {
+            backgroundColor: "#E74E35"
+        },
+        '& .MuiSvgIcon-root': {
+            fill: "#E74E35"
+        }
     },
-    // navBar{
-        
-    // },
+    navBar: {
+        color: '#FFF'
+    },
     hero: {
         display: 'flex',
         flexDirection: 'column',
@@ -100,9 +106,6 @@ export const useStyles = makeStyles((theme) => ({
         }
         
     },
-    // containerRest: {
-        // marginLeft: '5rem'
-    // },
     category: {
         display: 'flex', 
         flexDirection: 'column',
@@ -124,7 +127,7 @@ export const useStyles = makeStyles((theme) => ({
     singleBoxes: {
         display: 'flex',
         flexDirection: 'column',
-        // borderRadius: '16px',
+        borderRadius: '16px',
         // margin: '5rem'
     },
     card: {
