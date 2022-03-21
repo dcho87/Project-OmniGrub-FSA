@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Avatar } from '@mui/material';
 import { useStyles, FiList, FiChip } from '../styles';
 
  // const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ import { useStyles, FiList, FiChip } from '../styles';
         // }));
 const Category = ({cuisines, handleFilter}) => {
     const classes = useStyles();
-
+    
     return(
         <Paper 
             component="ul"
@@ -31,6 +31,7 @@ const Category = ({cuisines, handleFilter}) => {
                 <FiList key={idx}>
                     <FiChip 
                         label={cuisine}
+                        avatar={<Avatar alt={cuisine} src={`pictures/cuisines/${cuisine.split(' ').join('')}.png`} />}
                         onClick={(ev)=>handleFilter(ev)}
                     ></FiChip>
                     {/* <Chip

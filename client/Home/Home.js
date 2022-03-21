@@ -26,7 +26,7 @@ const Home = () => {
     const count = Math.ceil(totalRests.length / countPerPage)
     const _totalRests = usePagination(totalRests, count)
     // CATEGORY & CUISINE
-    const cuisines = ['Show All', 'Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
+    const cuisines = ['Show All', 'Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegan', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'French', 'Spanish', 'Taiwanese', 'Poke', 'African', 'Ramen', 'Sushi', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich', 'Smoothy', 'Kosher', 'Soul Food', 'Brazilian', 'Comfort Food', 'Greek', 'Portuguese', 'Dominican', 'Wings', 'Barfood', 'Turkish', 'Alcohol']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
     // ZIPCODE LOCATION

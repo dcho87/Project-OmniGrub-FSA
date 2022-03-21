@@ -16,9 +16,9 @@ const LocationInput = ({ zip, geoCode, onChange, onSubmit }) => {
             <IconButton 
                 sx={{ p: '10px' }} 
                 aria-label="menu"
-                // onClick={() => {
-                //     geoCode();
-                // }}
+                onClick={() => {
+                    geoCode();
+                }}
             >
                 <LocationOnIcon /> 
             </IconButton>

@@ -21,7 +21,7 @@ const HomeTest = () => {
     const count = Math.ceil(restaurants.length / countPerPage)
     const _restaurants = usePagination(restaurants, count)
     // FILTER LIST
-    const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'Poke', 'African', 'Ramen', 'Sushi', 'Jamaican', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich']
+    const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'French', 'Spanish', 'Taiwanese', 'Poke', 'African', 'Ramen', 'Sushi', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich', 'Smoothy', 'Kosher', 'Soul Food', 'Brazilian', 'Comfort Food', 'Greek', 'Portuguese', 'Dominican', 'Wings', 'Barfood', 'Turkish', 'Alcohol']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
     // STATE DISPATCH

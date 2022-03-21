@@ -53,7 +53,7 @@ export const FiCardActions = withStyles({
 export const FiCardContent = withStyles({
     root: {
       position: "relative",
-      backgroundColor: "transparent"
+      backgroundColor: "transparent",
     }
   })(CardContent);
 
@@ -77,11 +77,9 @@ export const useStyles = makeStyles((theme) => ({
             fill: "#E74E35"
         },
         '& .MuiPaginationItem-root.Mui-selected': {
-            backgroundColor: "#E74E35"
+            backgroundColor: "#E74E35",
+            color: '#FFF'
         },
-        // '& .MuiChip-root.Mui-selected':{
-        //     backgroundColor: "#E74E35"
-        // },
         '& .MuiCard-root': {
             borderRadius: '16px'
         },
@@ -90,7 +88,11 @@ export const useStyles = makeStyles((theme) => ({
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-        }
+        },
+        // typography: {
+            // fontFamily: 'Lato'
+        // }
+        
     },
     navBar: {
         color: '#FFF'
@@ -153,7 +155,7 @@ export const useStyles = makeStyles((theme) => ({
     fiCardContent: {
         color: "#ffffff",
         minHeight: '30vh',
-        backgroundImage: "linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.5))",
+        backgroundImage: "linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.7))",
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
@@ -161,7 +163,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     comparison: {
         display: 'flex',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        margin: '0, 0, 1rem, 0'
     },
     pagination: {
         margin: '2rem',
