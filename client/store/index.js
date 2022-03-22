@@ -7,6 +7,7 @@ import counterSlice from "./counterSlice";
 import yelpSlice from "./yelpSlice";
 import fourSlice from "./fourSlice";
 import googleStore from "./googleStore";
+import favoriteStore from "./favoriteStore";
 import auth from "./auth";
 import * as actionCreators from "../store";
 
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   yelpSlice,
   fourSlice,
   googleStore,
+  favoriteStore,
   auth,
 });
 
@@ -41,3 +43,4 @@ export * from "./yelpSlice";
 export * from "./fourSlice";
 export * from "./googleStore";
 export * from "./auth";
+export * from "./favoriteStore";

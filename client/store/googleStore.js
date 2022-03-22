@@ -2,11 +2,11 @@ import axios from "axios";
 import { findNearby } from "./yelpSlice";
 
 // ACTION TYPES CONSTANTS
-const FIND_SPOTS = "FIND_SPOTS";
+const GET_ALL_REST = "GET_ALL_REST";
 
 // ACTION CREATORS
 const _getGoogleRestaurant = (gRest) => ({
-  type: FIND_SPOTS,
+  type: GET_ALL_REST,
   gRest,
 });
 
@@ -34,10 +34,10 @@ export const reverseGeocode = (lat, lng) => {
   };
 };
 
-export default (state = [], action) => {
+export default (state = {}, action) => {
   switch (action.type) {
-    case FIND_SPOTS:
-      return [...state, action.gRest];
+    case GET_ALL_REST:
+      return { ...state, gRest: action.gRest };
     default:
       return state;
   }
