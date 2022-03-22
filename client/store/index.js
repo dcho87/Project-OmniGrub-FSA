@@ -7,8 +7,9 @@ import counterSlice from "./counterSlice";
 import yelpSlice from "./yelpSlice";
 import fourSlice from "./fourSlice";
 import googleStore from "./googleStore";
+import favoriteStore from "./favoriteStore";
+import auth from "./auth";
 import flashMessage from "./flashMessage";
-import auth from './auth'
 import * as actionCreators from "../store";
 
 const composeEnhancers = composeWithDevTools({
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   yelpSlice,
   fourSlice,
   googleStore,
+  favoriteStore,
   auth,
   flashMessage,
 });
@@ -42,5 +44,6 @@ export * from "./counterSlice";
 export * from "./yelpSlice";
 export * from "./fourSlice";
 export * from "./googleStore";
+export * from "./favoriteStore";
 export * from './auth'
 export * from './flashMessage'

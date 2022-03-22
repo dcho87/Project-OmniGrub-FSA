@@ -104,7 +104,6 @@ export const HomeYelp = () => {
       .sort((a, b) => b.gRating - a.gRating);
     // .sort((a, b) => (a.name > b.name ? 1 : -1));
     currentSpots = combined;
-
   }
 
   return (
