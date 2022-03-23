@@ -9,26 +9,28 @@ import { UserDropdown } from './UserDropdown';
 import Menu from "@mui/material/Menu";
 import Divider from "@mui/material/Divider";
 import { LogoutUser } from './LogoutUser';
+import { useStyles } from '../../styles'
 
-const theme = createTheme({
-    palette:{
-        primary:{
-            main:"#E74E35"
-        },
-        secondary: {
-            main: "#FFFFFF",
-          },
-    },
-    typography:{
-        fontFamily:"Lato"
-    }
-})
+// const theme = createTheme({
+//     palette:{
+//         primary:{
+//             main:"#E74E35"
+//         },
+//         secondary: {
+//             main: "#FFFFFF",
+//           },
+//     },
+//     typography:{
+//         fontFamily:"Lato"
+//     }
+// })
 
 
 export const NavBar = ()=>{
     //hardcoded categories to show as example
     const categories = ["Breakfast", "Burgers", "Chicken", "Healthy", "Italian", "Indian", "Pizza", "Sushi"]
     const user = useSelector((state) => state.auth);
+    const classes = useStyles();
 
       //DROPDOWN MENU FOR LOGGED IN USER
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,12 +41,13 @@ export const NavBar = ()=>{
   const handleClose = () => {
     setAnchorEl(null);
   };
-
     return(
         <div>
-            <ThemeProvider theme={theme}>
+            {/* <ThemeProvider theme={theme}> */}
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" sx={{height:"70px"}} color="primary">
+            <AppBar className={classes.root} position="fixed" sx={{height:"70px"}} 
+            // color="primary"
+            >
                 <Toolbar>
                     <Link to="/">
                     <Box component={"img"}
@@ -63,7 +66,8 @@ export const NavBar = ()=>{
                         <IconButton
                           size="large"
                           edge="end"
-                          color="secondary"
+                          // color="secondary"
+                          className={classes.navBar}
                           aria-controls={open ? "account-menu" : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
@@ -131,7 +135,8 @@ export const NavBar = ()=>{
                     <Typography
                     variant="p"
                     component="div"
-                    color="secondary"
+                    className={classes.navBar}
+                    // color="secondary"
                     sx={{
                       fontSize: "20px",
                       marginLeft: 1,
@@ -151,7 +156,7 @@ export const NavBar = ()=>{
             </AppBar>
             <Box component={"div"} sx={{ height: "70px" }} />
             </Box>
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
         </div>
     )
 }

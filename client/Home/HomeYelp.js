@@ -31,7 +31,9 @@ export const HomeYelp = () => {
     try {
       dispatch(findNearby(zip.zip));
       dispatch(getGoogleRestaurant(zip.zip));
+
       dispatch(findNearbyFour(zip.zip));
+
     } catch (error) {
       console.log(error);
     }
@@ -133,11 +135,13 @@ export const HomeYelp = () => {
           <option value="alpha">Name</option>
         </select>
       </label>
+
       {currentSpots.length === 0 ? (
         <img id="loading" style={{ width: "25%" }} src="/pictures/snail.gif" />
       ) : (
         <></>
       )}
+
       <ul>
         <div id="resList">
           {currentSpots.map((e) => (
@@ -147,6 +151,7 @@ export const HomeYelp = () => {
               onClick={() => console.log("You clicked me!")}
             >
               <img id="cardPic" src={e.image} />
+
 
               <table id="cardTable">
                 <tbody>
@@ -158,6 +163,7 @@ export const HomeYelp = () => {
                   <tr>
                     <td>Yelp</td>
                     <td>({e.yTotal})</td>
+
                     <td>
                       <img src={`/pictures/small_${e.yRating}.png`} />
                     </td>
@@ -165,12 +171,14 @@ export const HomeYelp = () => {
                   <tr>
                     <td>Google</td>
                     <td>({e.gTotal})</td>
+
                     <td>
                       <StarRatingComponent
                         name="rate1"
                         starCount={5}
                         value={e.gRating}
                       />
+
                     </td>
                   </tr>
                   <tr>

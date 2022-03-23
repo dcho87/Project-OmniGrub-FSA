@@ -13,5 +13,11 @@ router.post("/", async (req, res, next) => {
 });
 
 
-
+router.post("/google", async (req, res, next)=>{
+    try{
+        res.send({token:await User.authenticateGoogle(req.body.data)})
+    }catch(err){
+        next(err)
+    }
+})
 

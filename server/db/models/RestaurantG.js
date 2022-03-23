@@ -16,6 +16,13 @@ const RestaurantG = db.define("restaurantg", {
       notEmpty: true,
     },
   },
+  rating: {
+    type: INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
   zipCode: {
     type: INTEGER,
     allowNull: false,
