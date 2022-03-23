@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate, logout, authenticateGoog, exists } from "../../store";
+import { authenticate, logout, authenticateGoog, oauth } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { Or } from "./Or";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -32,7 +32,7 @@ export const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authError = useSelector((state) => state.auth.error);
-  const oauthUserExists = useSelector((state) => state.oauth.user);
+
   const {
     register,
     handleSubmit,
@@ -58,36 +58,12 @@ export const SignUp = () => {
       email: profile.email,
       googleId: profile.googleId,
     };
-    console.log("THIS IS RESPONSEEE--->", profile);
-
     try {
-      await dispatch(exists(data.googleId));
-      console.log("THIS IS OAUTHUSEREXISTS", oauthUserExists);
-      if (!oauthUserExists) {
-        //if user does not exist then sign them up
-        console.log("THIS RAN FOR SOME REASON")
-        await dispatch(authenticate(data, "signup")).then(() => {
-          dispatch(setflashMessage(true, "success", "Welcome to OmniGrub!"));
-        });
-        navigate("/");
-      } else {
-        //if user exists then sign them in
-        await dispatch(authenticateGoog(data, "login")).then(() => {
-          dispatch(setflashMessage(true, "success", "Welcome back!"));
-        });
-        navigate("/");
-      }
+      await dispatch(oauth(data));
+      navigate("/");
     } catch (ex) {
       console.log(ex);
     }
-
-    //so you first need to check if the user email already exists
-    //to do this, you need to call a thunk to the database to query it if it exists
-    //user.find
-    //if it already exists in the database, then log the user in using that profile
-    //else if it doesn't exist, create a new user in the database.  you don't need a password
-    //sign the user in and generate a JWT for them
-    //go to home page
   };
 
   return (

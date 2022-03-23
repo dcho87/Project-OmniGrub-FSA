@@ -66,7 +66,7 @@ User.exists = async function ( googleId ) {
   if (!user) {
     return {user:false};
   } else {
-    return user;
+    return {user:true};
   }
 };
 
