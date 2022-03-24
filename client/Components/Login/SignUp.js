@@ -66,6 +66,11 @@ export const SignUp = () => {
     }
   };
 
+
+  const onGoogleFailure = (response)=>{
+      console.log(response)
+  }
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -87,23 +92,14 @@ export const SignUp = () => {
           <Box component="h1" sx={{ fontFamily: "Lato", marginTop: 6 }}>
             Sign up free to start ordering from the best.
           </Box>
-          <Box component="div" sx={{ maxWidth: "360px" }}>
-            <Button
-              variant="contained"
-              fullWidth
-              startIcon={<FacebookIcon />}
-              sx={{ marginTop: 2, backgroundColor: "blue" }}
-              size="large"
-            >
-              Sign up with Facebook
-            </Button>
+          <Box component="div" sx={{ maxWidth: "360px", justifyContent:"center", alignItems:"center", marginTop:3,marginBottom:3 }}>
             <GoogleLogin
               clientId={
                 "390758873819-59alpn980k0o6j9h8itajot3ut0hq3ve.apps.googleusercontent.com"
               }
-              buttonText="Sign up with Google"
+              buttonText="Sign Up or Sign In with Google"
               onSuccess={onGoogleSuccess}
-              // onFailure={onGoogleFailure}
+              onFailure={onGoogleFailure}
             />
           </Box>
           <Or />
