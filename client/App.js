@@ -12,7 +12,7 @@ import WithNav from "./Components/NavToggle/WithNav";
 import WithoutNav from "./Components/NavToggle/WithoutNav";
 import { SignUp } from "./Components/Login/SignUp";
 import { FlashMessage } from "./Components/FlashMessage/FlashMessage";
-
+import { PageNotFound } from "./Components/PageNotFound";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,9 @@ export const App = () => {
           </Route>
           <Route element={<WithNav />}>
             <Route path="/google" element={<Google />} />
+          </Route>
+          <Route element={<WithoutNav />}>
+          <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
