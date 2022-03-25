@@ -101,10 +101,14 @@ export const useStyles = makeStyles((theme) => ({
         //     // alignItems: "center",
         //     justifyContent: 'center'
         // },
-        // '& .MuiDrawer-paper': {
+        // '& .MuiModal-root.MuiDrawer-root.MuiDrawer-modal.MuiDrawer-paper': {
         //     display: 'flex',
         //     flexDirection: 'column',
         //     justifyContent: 'center',
+        //     backgroundColor: 'rgb(231, 78, 53)',
+        // }
+        // '& .MuiListItem-root': {
+        //     alignItems: 'flex-start'
         // }
     },
     navBar: {
@@ -188,13 +192,14 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        // color: '#FFF'
         // alignItems: 'flex-end'
     },
     slidePanelDetails: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'flex-start !important',
+        // justifyContent: 'center',
     }
 }))
 

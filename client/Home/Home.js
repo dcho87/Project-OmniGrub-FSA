@@ -74,7 +74,8 @@ const Home = () => {
         }
     }, [ state.yelpSlice[0] ])
     const combineArr = (arr1, arr2) => {
-        return arr1.map((e) => {
+        return arr1.map((e, idx) => {
+            e.id = idx
             arr2.forEach((x) => {
                 if( x.name === e.name ){
                     e.gRating = x.gRating;
