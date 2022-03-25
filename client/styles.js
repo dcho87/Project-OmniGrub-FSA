@@ -89,10 +89,23 @@ export const useStyles = makeStyles((theme) => ({
             justifyContent: 'center',
             alignItems: 'center',
         },
-        // typography: {
-            // fontFamily: 'Lato'
+        // '& .MuiDrawer-root':{
+        //     // margin: theme.spacing(1),
+        //     // padding: theme.spacing(2),
+        //     // position: 'absolute',
+        //     // width: 'calc(100% - 322px)',
+        //     // height: '400px',
+        //     display: 'flex',
+        //     // overflow: "hidden",
+        //     flexDirection: "column",
+        //     // alignItems: "center",
+        //     justifyContent: 'center'
+        // },
+        // '& .MuiDrawer-paper': {
+        //     display: 'flex',
+        //     flexDirection: 'column',
+        //     justifyContent: 'center',
         // }
-        
     },
     navBar: {
         color: '#FFF'
@@ -170,6 +183,18 @@ export const useStyles = makeStyles((theme) => ({
         margin: '2rem',
         display: 'flex',
         justifyContent: 'center',
+    },
+    slidePanel: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        // alignItems: 'flex-end'
+    },
+    slidePanelDetails: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 }))
 

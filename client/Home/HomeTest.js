@@ -24,6 +24,17 @@ const HomeTest = () => {
     const cuisines = ['Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegen', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'French', 'Spanish', 'Taiwanese', 'Poke', 'African', 'Ramen', 'Sushi', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich', 'Smoothy', 'Kosher', 'Soul Food', 'Brazilian', 'Comfort Food', 'Greek', 'Portuguese', 'Dominican', 'Wings', 'Barfood', 'Turkish', 'Alcohol']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
+    const [ isDrawerOpen, setIsDrawerOpen ] = useState({
+        isOpen: false,
+        currentIdx: 0
+    });
+    // HANDLE DRAWER
+    const handleDrawer = (openBool, id) => {
+        setIsDrawerOpen({
+            isOpen: openBool,
+            currentIdx: id
+        })
+    }
     // STATE DISPATCH
     useEffect(()=>{
         dispatch(getAllRest())
@@ -80,7 +91,7 @@ const HomeTest = () => {
                     
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
-                    <RestaurantGrid restaurants={_restaurants} /> 
+                    <RestaurantGrid restaurants={_restaurants} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer}/> 
                 </Paper>
                 <Pagination
                     className={classes.pagination}
