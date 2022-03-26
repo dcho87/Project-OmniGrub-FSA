@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby } from '../store';
+import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby, findNearbyFour, } from '../store';
 import { Box, Container, Typography, Paper, Pagination } from '@mui/material';
 import { useStyles } from '../styles';
 import LocationInput from './LocationInput';
@@ -13,11 +13,11 @@ const Home = () => {
     const state = useSelector((state) => state);
     const classes = useStyles();
     // STATES
-    const [ loadedY, setLoadedY ] = useState(false);
-    const [ loadedG, setLoadedG ] = useState(false);
     const [ restaurantsY, setRestaurantsY ] = useState([]);
     const [ restaurantsG, setRestaurantsG ] = useState([]);
+    const [ restaurantsF, setRestaurantsF ] = useState([]);
     const [ totalRests, setTotalRests ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
     // LOCATION
     const [ zip, setZip ] = useState("");
     // PAGINATION
@@ -29,6 +29,20 @@ const Home = () => {
     const cuisines = ['Show All', 'Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegan', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'French', 'Spanish', 'Taiwanese', 'Poke', 'African', 'Ramen', 'Sushi', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich', 'Smoothy', 'Kosher', 'Soul Food', 'Brazilian', 'Comfort Food', 'Greek', 'Portuguese', 'Dominican', 'Wings', 'Barfood', 'Turkish', 'Alcohol']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
+    // DRAWER
+    const [ isDrawerOpen, setIsDrawerOpen ] = useState({
+        isOpen: false,
+        currentIdx: 0
+    });
+    // HANDLE DRAWER
+    const handleDrawer = (openBool, id) => {
+        console.log(id)
+        console.log(totalRests[id])
+        setIsDrawerOpen({
+            isOpen: openBool,
+            currentIdx: id
+        })
+    }
     // ZIPCODE LOCATION
     const onChange = (ev) => {
         setZip({ ...zip, zip: ev.target.value });
@@ -36,22 +50,40 @@ const Home = () => {
     const onSubmit = (ev) => {
         ev.preventDefault();
         try {
-            dispatch(findNearby(zip.zip)).then(() => {
-                setRestaurantsY(state.yelpSlice[0]);
-                setLoadedY(true);
-              })
-            dispatch(getGoogleRestaurant(zip.zip)).then(()=>{
-                setRestaurantsG(state.googleStore.gRest);
-                setLoadedG(true);
-            });
+            dispatch(findNearby(zip.zip)).then(() => setRestaurantsY(state.yelpSlice[0]));
+            dispatch(getGoogleRestaurant(zip.zip)).then(()=> setRestaurantsG(state.googleStore.gRest));
+            dispatch(findNearbyFour(zip.zip)).then(()=> setRestaurantsF(state.fourSlice[0]));
         } catch (error) {
             console.log(error);
         }
     };
+    // FOUR SETSTATE
+    useEffect(()=>{
+        try{
+            if(state.fourSlice[0]){
+                setLoading(true)
+                const cleanFour = [...state.fourSlice[0].businesses].map((e)=>{
+                    return {
+                        name: e.name,
+                        fRating: e.rating,
+                        fLat: e.coordinates.latitude,
+                        // image: e.image_url,
+                        fTotal: e.review_count,
+                        category: e.categories.map(c => c.title),
+                        url: e.url,
+                    }
+                })
+                setRestaurantsF(cleanFour);
+            }
+        } catch(e){
+            console.log(e)
+        }
+    }, [ state.fourSlice[0] ])
     // YELP SETSTATE
     useEffect(()=>{
         try{
-            if(loadedY){
+            if(state.yelpSlice[0]){
+                setLoading(true)
                 const cleanYelp = [...state.yelpSlice[0].businesses].map((e)=>{
                     return {
                         name: e.name,
@@ -68,9 +100,10 @@ const Home = () => {
         } catch(e){
             console.log(e)
         }
-    }, [loadedY, state.yelpSlice[0]])
+    }, [ state.yelpSlice[0] ])
     const combineArr = (arr1, arr2) => {
-        return arr1.map((e) => {
+        return arr1.map((e, idx) => {
+            e.id = idx
             arr2.forEach((x) => {
                 if( x.name === e.name ){
                     e.gRating = x.gRating;
@@ -84,11 +117,12 @@ const Home = () => {
             })
             return e
         })
+        // .sort((a, b)=> b.gRating - a.gRating)
     }
     // GOOGLE SETSTATE, BOTH DATA
     useEffect(()=>{
         try{
-            if(loadedG){
+            if(state.googleStore.gRest){
                 const cleanGoog = [...state.googleStore.gRest].map((e) => {
                     return {
                         name: e.name,
@@ -98,14 +132,15 @@ const Home = () => {
                         gId: e.place_id,
                     }
                 }) 
-                setRestaurantsG(cleanGoog);
+                setRestaurantsG(cleanGoog)
                 const combined = combineArr(restaurantsY, cleanGoog)
                 setTotalRests(combined);
+                setLoading(false);
             }
         } catch(e){
             console.log(e)
         }
-    }, [loadedG, state.googleStore])
+    }, [state.googleStore])
     // FILTERING 
     const handleFilter = (ev) => {
         let newCuisine = ev.target.textContent;
@@ -132,7 +167,15 @@ const Home = () => {
     }
     async function geoCode() {
         const p = await getPosition();
-        dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
+        try{
+            dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude))
+                .then(()=>{
+                    setRestaurantsY(state.yelpSlice[0]);
+                    setRestaurantsG(state.googleStore.gRest);
+                })
+        } catch(err){
+            console.log(err)
+        }
     }
     return(
         <main className={classes.root}>
@@ -150,7 +193,12 @@ const Home = () => {
                 </Container>
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
-                    { totalRests ? <RestaurantGrid restaurants={_totalRests} /> : 'Loading...' }
+                    { loading ? <img id="loading" style={{ height: "auto" }} src="/pictures/snail.gif" /> : ''}
+                    { totalRests ? 
+                        <RestaurantGrid restaurants={_totalRests} totalRests={totalRests} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer} /> 
+                        :
+                        ''
+                    }
                 </Paper>
                 <Pagination
                     className={classes.pagination}

@@ -89,10 +89,27 @@ export const useStyles = makeStyles((theme) => ({
             justifyContent: 'center',
             alignItems: 'center',
         },
-        // typography: {
-            // fontFamily: 'Lato'
+        // '& .MuiDrawer-root':{
+        //     // margin: theme.spacing(1),
+        //     // padding: theme.spacing(2),
+        //     // position: 'absolute',
+        //     // width: 'calc(100% - 322px)',
+        //     // height: '400px',
+        //     display: 'flex',
+        //     // overflow: "hidden",
+        //     flexDirection: "column",
+        //     // alignItems: "center",
+        //     justifyContent: 'center'
+        // },
+        // '& .MuiModal-root.MuiDrawer-root.MuiDrawer-modal.MuiDrawer-paper': {
+        //     display: 'flex',
+        //     flexDirection: 'column',
+        //     justifyContent: 'center',
+        //     backgroundColor: 'rgb(231, 78, 53)',
         // }
-        
+        // '& .MuiListItem-root': {
+        //     alignItems: 'flex-start'
+        // }
     },
     navBar: {
         color: '#FFF'
@@ -121,7 +138,6 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: "#FFF",
             borderRadius: 2
         }
-        
     },
     category: {
         display: 'flex', 
@@ -145,7 +161,6 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '16px',
-        // margin: '5rem'
     },
     card: {
         minWidth: '20vw',
@@ -161,16 +176,44 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
     },
-    comparison: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        margin: '0, 0, 1rem, 0'
-    },
+    // comparison: {
+    //     display: 'flex',
+    //     justifyContent: 'space-around',
+    //     margin: '0, 0, 1rem, 0'
+    // },
     pagination: {
         margin: '2rem',
         display: 'flex',
         justifyContent: 'center',
+    },
+    slidePanel: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    slidePanelDetails: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start !important',
+    },
+    ratingTextOmni: {
+        display: 'flex',
+        color: 'rgb(255, 255, 255)',
+        marginBottom: '0.3rem'
+    },
+    ratingText: {
+        display: 'flex',
+        // color: 'rgb(128, 128, 128)',
+        color: 'rgba(255, 255, 255, 0.8)',
+        marginBottom: '0.3rem'
+    },
+    ratingTextSide: {
+        display: 'flex',
+        color: 'rgb(128, 128, 128)',
+        // color: 'rgba(255, 255, 255, 0.8)',
+        marginBottom: '0.3rem'
     }
+
 }))
 
 export default {
