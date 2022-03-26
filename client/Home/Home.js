@@ -16,6 +16,7 @@ const Home = () => {
     const [ restaurantsY, setRestaurantsY ] = useState([]);
     const [ restaurantsG, setRestaurantsG ] = useState([]);
     const [ totalRests, setTotalRests ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
     // LOCATION
     const [ zip, setZip ] = useState("");
     // PAGINATION
@@ -56,6 +57,7 @@ const Home = () => {
     useEffect(()=>{
         try{
             if(state.yelpSlice[0]){
+                setLoading(true)
                 const cleanYelp = [...state.yelpSlice[0].businesses].map((e)=>{
                     return {
                         name: e.name,
@@ -103,9 +105,10 @@ const Home = () => {
                         gId: e.place_id,
                     }
                 }) 
-                setRestaurantsG(cleanGoog);
+                setRestaurantsG(cleanGoog)
                 const combined = combineArr(restaurantsY, cleanGoog)
                 setTotalRests(combined);
+                setLoading(false);
             }
         } catch(e){
             console.log(e)
@@ -147,6 +150,7 @@ const Home = () => {
             console.log(err)
         }
     }
+    console.log(loading);
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
@@ -163,11 +167,13 @@ const Home = () => {
                 </Container>
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
+                    { loading ? <img id="loading" style={{ height: "auto" }} src="/pictures/snail.gif" /> : ''}
                     { totalRests ? 
                         <RestaurantGrid restaurants={_totalRests} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer} /> 
-                        : 
-                        '' 
+                        :
+                        ''
                     }
+                    
                 </Paper>
                 <Pagination
                     className={classes.pagination}

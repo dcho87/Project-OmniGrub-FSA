@@ -138,7 +138,6 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: "#FFF",
             borderRadius: 2
         }
-        
     },
     category: {
         display: 'flex', 
@@ -162,7 +161,6 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '16px',
-        // margin: '5rem'
     },
     card: {
         minWidth: '20vw',
@@ -192,14 +190,11 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        // color: '#FFF'
-        // alignItems: 'flex-end'
     },
     slidePanelDetails: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start !important',
-        // justifyContent: 'center',
     },
     ratingText: {
         display: 'flex',

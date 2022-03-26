@@ -26,7 +26,7 @@ export const HomeYelp = () => {
   const onChange = (ev) => {
     setZip({ ...zip, zip: ev.target.value });
 
-    console.log(zip, "current zip code");
+    // console.log(zip, "current zip code");
 
   };
   const onSubmit = (ev) => {
