@@ -11,14 +11,24 @@ const TestReview = require("./models/TestReview");
 Favorites.belongsTo(User);
 User.hasMany(Favorites);
 
-RestaurantAgg.belongsTo(RestaurantG);
 RestaurantAgg.belongsTo(RestaurantY);
 RestaurantAgg.belongsTo(Favorites);
+Favorites.hasMany(RestaurantAgg);
 
-RestaurantG.belongsToMany(Favorites, { through: RestaurantAgg });
-Favorites.belongsToMany(RestaurantG, { through: RestaurantAgg });
-RestaurantY.belongsToMany(Favorites, { through: RestaurantAgg });
 Favorites.belongsToMany(RestaurantY, { through: RestaurantAgg });
+RestaurantY.belongsToMany(Favorites, { through: RestaurantAgg });
+// RestaurantG.belongsToMany(Favorites, {
+//   through: RestaurantAgg,
+//   foreignKey: "restaurantagg_id",
+// });
+// Favorites.belongsToMany(RestaurantG, {
+//   through: RestaurantAgg,
+//   foreignKey: "favorite_id",
+// });
+// Favorites.belongsToMany(RestaurantY, {
+//   through: RestaurantAgg,
+//   foreignKey: "favoriteId",
+// });
 
 // Test.hasMany(TestReview, {
 //   // as: 'restaurant',
