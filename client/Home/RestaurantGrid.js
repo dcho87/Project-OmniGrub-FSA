@@ -36,10 +36,10 @@ const RestaurantGrid = ({ restaurants, handleDrawer, isDrawerOpen }) => {
                                     >
                                         {restaurant.name} 
                                     </Typography>
-                                    <Typography>
+                                    <Typography className={classes.ratingText}>
                                         {/* Average Rating:  */}
+                                        { parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) }
                                         <Rating name="read-only" value={ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) } precision={0.1} readOnly />
-                                        ({ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) })
                                     </Typography>
                                     <Typography>
                                         {/* {restaurant.category.join(', ')} */}
@@ -112,20 +112,20 @@ const RestaurantGrid = ({ restaurants, handleDrawer, isDrawerOpen }) => {
                         <ListItem className={classes.slidePanelDetails} spacing={1}>
                             <Typography style={{ fontSize: '1.5rem'}}>{restaurants[isDrawerOpen.currentIdx]?.name}</Typography>
                             {/* <ListItemText>{restaurants[isDrawerOpen.currentIdx]?.name}</ListItemText> */}
-                            <Typography>
+                            <Typography className={classes.ratingText}>
                             {/* <ListItemText> */}
                                 Yelp: {restaurants[isDrawerOpen.currentIdx]?.yRating} <span>&nbsp;</span>
                                 <Rating name="read-only" value={restaurants[isDrawerOpen.currentIdx]?.yRating} precision={0.1} readOnly />
                                 {restaurants[isDrawerOpen.currentIdx]?.yTotal.toLocaleString('en-US')} reviews
                             {/* </ListItemText> */}
-                                <IconButton sx={{ p: '2px' }} href={restaurants[isDrawerOpen.currentIdx]?.url}>
+                                {/* <IconButton sx={{ p: '2px' }} href={restaurants[isDrawerOpen.currentIdx]?.url}>
                                     <LaunchIcon />
-                                </IconButton>
+                                </IconButton> */}
                             </Typography>
                             
                             <Divider variant="middle" />
                             <hr />
-                            <Typography>
+                            <Typography className={classes.ratingText}>
                             {/* <ListItemText> */}
                                 Google: {restaurants[isDrawerOpen.currentIdx]?.gRating} <span>&nbsp;</span>
                                 <Rating name="read-only" value={restaurants[isDrawerOpen.currentIdx]?.gRating} precision={0.1} readOnly />

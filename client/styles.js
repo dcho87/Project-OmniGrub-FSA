@@ -200,7 +200,12 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'flex-start !important',
         // justifyContent: 'center',
+    },
+    ratingText: {
+        display: 'flex',
+        color: 'rgb(128, 128, 128)'
     }
+
 }))
 
 export default {
