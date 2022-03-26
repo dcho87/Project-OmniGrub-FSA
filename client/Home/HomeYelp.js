@@ -25,9 +25,6 @@ export const HomeYelp = () => {
   //Form input
   const onChange = (ev) => {
     setZip({ ...zip, zip: ev.target.value });
-
-    console.log(zip, "current zip code");
-
   };
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -62,7 +59,7 @@ export const HomeYelp = () => {
       .sort((a, b) => (a.name > b.name ? 1 : -1));
 
   //Loads both once Google array is loaded
-  if (state.yelpSlice[0] && state.googleStore.gRest) {
+  if (state.yelpSlice[0] && state.googleStore.gRest && state.fourSlice) {
     const yelpArray = state.yelpSlice[0].businesses;
     const googArray = state.googleStore.gRest;
     //Grab attributes you want from yelp here
@@ -73,6 +70,7 @@ export const HomeYelp = () => {
         yLat: e.coordinates.latitude,
         image: e.image_url,
         yTotal: e.review_count,
+        yURL: e.url,
       };
     });
     //Grab attributes you want from Google here
@@ -81,31 +79,48 @@ export const HomeYelp = () => {
         name: e.name,
         Googlerating: e.rating,
         lat: e.geometry.location.lat,
+        lng: e.geometry.location.lng,
         gTotal: e.user_ratings_total,
         gId: e.place_id,
       };
     });
     //Merge the two arrays together
-    const combined = cleanYelp
+    const combined = cleanYelp.map((e) => {
+      cleanGoogle.forEach((x) => {
+        if (x.name === e.name) {
+          e.gRating = x.Googlerating;
+          e.gLat = x.lat;
+          e.gLng = x.lng;
+          e.gTotal = x.gTotal;
+          e.gId = x.gId;
+        } else {
+          e.gRating = e.gRating > 0 ? e.gRating : 0;
+          e.gTotal = e.gTotal > 0 ? e.gTotal : 0;
+        }
+      });
+      return e;
+    });
+
+    const combined2 = combined
       .map((e) => {
-        cleanGoogle.forEach((x) => {
+        state.fourSlice[0].forEach((x) => {
           if (x.name === e.name) {
-            e.gRating = x.Googlerating;
-            e.gLat = x.lat;
-            e.gTotal = x.gTotal;
-            e.gId = x.gId;
+            e.fRating = x.rating;
+            e.fTotal = x.hasOwnProperty("stats") ? x.stats.total_ratings : 0;
+            e.fWeb = x.hasOwnProperty("website") ? x.website : "/";
           } else {
-            e.gRating = e.gRating > 0 ? e.gRating : 0;
-            e.gTotal = e.gTotal > 0 ? e.gTotal : 0;
+            e.fRating = e.fRating ? e.fRating : 0;
+            e.fTotal = e.fTotal > 0 ? e.fTotal : 0;
+            e.fWeb = e.fWeb ? e.fWeb : "/";
           }
         });
         return e;
       })
       .sort((a, b) => b.gRating - a.gRating);
     // .sort((a, b) => (a.name > b.name ? 1 : -1));
-    currentSpots = combined;
+    currentSpots = combined2;
   }
-
+  console.log(currentSpots, "currentSpots");
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -164,6 +179,17 @@ export const HomeYelp = () => {
                         value={e.gRating}
                       />
 
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>FourSquare</td>
+                    <td>({e.fTotal})</td>
+                    <td>
+                      <StarRatingComponent
+                        name="rate1"
+                        starCount={10}
+                        value={e.fRating}
+                      />
                     </td>
                   </tr>
                 </tbody>

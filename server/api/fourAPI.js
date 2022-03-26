@@ -4,6 +4,10 @@ const axios = require("axios");
 router.get("/:zip", async (req, res, next) => {
   try {
     let data = [];
+    let stringer = "";
+    for (let i = 13000; i < 13387; i++) {
+      stringer = stringer + `,${i}`;
+    }
     await axios
       .get(`https://api.foursquare.com/v3/places/search`, {
         headers: {
@@ -11,17 +15,16 @@ router.get("/:zip", async (req, res, next) => {
         },
         params: {
           near: req.params.zip,
-          categories: 1300,
+          categories: stringer.substring(1),
           limit: 50,
+          fields: "rating,name,fsq_id,location,website,stats",
         },
       })
       .then((response) => {
-        console.log(response, "response");
+        data = response.data.results;
       });
-    console.log(data, "this is the data!!!");
-
     res.send(data);
   } catch (err) {
     next(err);
   }
-});
+};

@@ -56,6 +56,7 @@
     "passport": "^0.5.2",
     "passport-google-oidc": "^0.1.0",
     "pg": "^8.7.3",
+    "react-google-login": "^5.2.2",
     "react-hook-form": "^7.27.1",
     "react-star-rating-component": "^1.4.1",
     "sequelize": "^6.17.0"

@@ -90,7 +90,6 @@ router.get("/searchnear/:location", async (req, res, next) => {
       const map = sort.map((e) => {
         return [e.name, e.geometry.location.lat];
       });
-      console.log(map, "map");
       //Last line that sends out to the front end
       res.send(response.data);
     }, 5000);

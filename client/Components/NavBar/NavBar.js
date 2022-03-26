@@ -45,34 +45,47 @@ export const NavBar = ()=>{
         <div>
             {/* <ThemeProvider theme={theme}> */}
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar className={classes.root} position="fixed" sx={{height:"70px"}} 
-            // color="primary"
+            <AppBar 
+              className={classes.root} 
+              position="fixed" 
+              sx={{
+                height:"70px",
+                backgroundColor: "#E74E35"
+              }} 
             >
                 <Toolbar>
                     <Link to="/">
                     <Box component={"img"}
-                    src={"pictures/Logo.png"}
-                    sx={{height:62,
-                    width:190,
-                    marginTop:0.5,
-                    marginLeft:1}}/>
+                      src={"pictures/Logo.png"}
+                      sx={{
+                        height:62,
+                        width:190,
+                        marginTop:0.5,
+                        marginLeft:1
+                      }}
+                    />
                     </Link>
                     <Box sx={{ flexGrow: 1 }} />
                     {user.firstName ? (
                         <>
                         <Box
-                        sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
-                      >
+                          sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
+                        >
                         <IconButton
                           size="large"
                           edge="end"
-                          // color="secondary"
                           className={classes.navBar}
                           aria-controls={open ? "account-menu" : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
                           onClick={handleClick}
-                          sx={{ borderRadius: 2, marginRight:8 }}
+                          sx={{ 
+                            borderRadius: 2, 
+                            marginRight:8,  
+                            '& .MuiSvgIcon-root': {
+                              fill: "#FFF"
+                            }
+                          }}
                         >
                           <AccountBoxIcon />
                           <Typography
@@ -83,6 +96,7 @@ export const NavBar = ()=>{
                               fontSize: "15px",
                               fontFamily: "Lato",
                               letterSpacing: "0.1rem",
+                              color: "#FFF"
                             }}
                           >
                             {user.firstName.toUpperCase()}
