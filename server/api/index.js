@@ -4,6 +4,7 @@ module.exports = router;
 router.use("/testRest", require("./testRestaurants"));
 router.use("/google", require("./google"));
 router.use("/yelpAPI", require("./yelpAPI"));
+router.use("/fourAPI", require("./fourAPI"));
 router.use("/users", require("./users"));
 
 router.use((req, res, next) => {

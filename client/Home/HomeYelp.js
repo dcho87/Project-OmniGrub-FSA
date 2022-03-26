@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getAllRest,
   findNearby,
-  // findNearbyFour,
+  findNearbyFour,
   getGoogleRestaurant,
 } from "../store";
-// import StarRatingComponent from "react-star-rating-component";
+import StarRatingComponent from "react-star-rating-component";
 
 export const HomeYelp = () => {
   const dispatch = useDispatch();
@@ -25,14 +25,18 @@ export const HomeYelp = () => {
   //Form input
   const onChange = (ev) => {
     setZip({ ...zip, zip: ev.target.value });
-    // console.log(zip, "current zip code");
+
+    console.log(zip, "current zip code");
+
   };
   const onSubmit = (ev) => {
     ev.preventDefault();
     try {
       dispatch(findNearby(zip.zip));
       dispatch(getGoogleRestaurant(zip.zip));
-      // dispatch(findNearbyFour(zip.zip));
+
+      dispatch(findNearbyFour(zip.zip));
+
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +104,7 @@ export const HomeYelp = () => {
       .sort((a, b) => b.gRating - a.gRating);
     // .sort((a, b) => (a.name > b.name ? 1 : -1));
     currentSpots = combined;
-    console.log(currentSpots)
+
   }
 
   return (
@@ -117,11 +121,13 @@ export const HomeYelp = () => {
           <option value="alpha">Name</option>
         </select>
       </label>
-      {/* {currentSpots.length === 0 ? (
+
+      {currentSpots.length === 0 ? (
         <img id="loading" style={{ width: "25%" }} src="/pictures/snail.gif" />
       ) : (
         <></>
-      )} */}
+      )}
+
       <ul>
         <div id="resList">
           {currentSpots.map((e) => (
@@ -132,7 +138,8 @@ export const HomeYelp = () => {
             >
               <img id="cardPic" src={e.image} />
 
-              <table id="cardTable" >
+
+              <table id="cardTable">
                 <tbody>
                   <tr>
                     <td colSpan={3}>
@@ -142,20 +149,23 @@ export const HomeYelp = () => {
                   <tr>
                     <td>Yelp</td>
                     <td>({e.yTotal})</td>
-                    {/* <td>
+
+                    <td>
                       <img src={`/pictures/small_${e.yRating}.png`} />
-                    </td> */}
+                    </td>
                   </tr>
                   <tr>
                     <td>Google</td>
                     <td>({e.gTotal})</td>
-                    {/* <td>
+
+                    <td>
                       <StarRatingComponent
                         name="rate1"
                         starCount={5}
                         value={e.gRating}
                       />
-                    </td> */}
+
+                    </td>
                   </tr>
                 </tbody>
               </table>
