@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby } from '../store';
+import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby, findNearbyFour, } from '../store';
 import { Box, Container, Typography, Paper, Pagination } from '@mui/material';
 import { useStyles } from '../styles';
 import LocationInput from './LocationInput';
@@ -15,6 +15,7 @@ const Home = () => {
     // STATES
     const [ restaurantsY, setRestaurantsY ] = useState([]);
     const [ restaurantsG, setRestaurantsG ] = useState([]);
+    const [ restaurantsF, setRestaurantsF ] = useState([]);
     const [ totalRests, setTotalRests ] = useState([]);
     const [ loading, setLoading ] = useState(false);
     // LOCATION
@@ -35,6 +36,8 @@ const Home = () => {
     });
     // HANDLE DRAWER
     const handleDrawer = (openBool, id) => {
+        console.log(id)
+        console.log(totalRests[id])
         setIsDrawerOpen({
             isOpen: openBool,
             currentIdx: id
@@ -47,12 +50,35 @@ const Home = () => {
     const onSubmit = (ev) => {
         ev.preventDefault();
         try {
-            dispatch(findNearby(zip.zip)).then(() => setRestaurantsY(state.yelpSlice[0]))
+            dispatch(findNearby(zip.zip)).then(() => setRestaurantsY(state.yelpSlice[0]));
             dispatch(getGoogleRestaurant(zip.zip)).then(()=> setRestaurantsG(state.googleStore.gRest));
+            dispatch(findNearbyFour(zip.zip)).then(()=> setRestaurantsF(state.fourSlice[0]));
         } catch (error) {
             console.log(error);
         }
     };
+    // FOUR SETSTATE
+    useEffect(()=>{
+        try{
+            if(state.fourSlice[0]){
+                setLoading(true)
+                const cleanFour = [...state.fourSlice[0].businesses].map((e)=>{
+                    return {
+                        name: e.name,
+                        fRating: e.rating,
+                        fLat: e.coordinates.latitude,
+                        // image: e.image_url,
+                        fTotal: e.review_count,
+                        category: e.categories.map(c => c.title),
+                        url: e.url,
+                    }
+                })
+                setRestaurantsF(cleanFour);
+            }
+        } catch(e){
+            console.log(e)
+        }
+    }, [ state.fourSlice[0] ])
     // YELP SETSTATE
     useEffect(()=>{
         try{
@@ -91,6 +117,7 @@ const Home = () => {
             })
             return e
         })
+        // .sort((a, b)=> b.gRating - a.gRating)
     }
     // GOOGLE SETSTATE, BOTH DATA
     useEffect(()=>{
@@ -150,7 +177,6 @@ const Home = () => {
             console.log(err)
         }
     }
-    console.log(loading);
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
@@ -169,11 +195,10 @@ const Home = () => {
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
                     { loading ? <img id="loading" style={{ height: "auto" }} src="/pictures/snail.gif" /> : ''}
                     { totalRests ? 
-                        <RestaurantGrid restaurants={_totalRests} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer} /> 
+                        <RestaurantGrid restaurants={_totalRests} totalRests={totalRests} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer} /> 
                         :
                         ''
                     }
-                    
                 </Paper>
                 <Pagination
                     className={classes.pagination}

@@ -176,11 +176,11 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
     },
-    comparison: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        margin: '0, 0, 1rem, 0'
-    },
+    // comparison: {
+    //     display: 'flex',
+    //     justifyContent: 'space-around',
+    //     margin: '0, 0, 1rem, 0'
+    // },
     pagination: {
         margin: '2rem',
         display: 'flex',
@@ -196,9 +196,22 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'flex-start !important',
     },
+    ratingTextOmni: {
+        display: 'flex',
+        color: 'rgb(255, 255, 255)',
+        marginBottom: '0.3rem'
+    },
     ratingText: {
         display: 'flex',
-        color: 'rgb(128, 128, 128)'
+        // color: 'rgb(128, 128, 128)',
+        color: 'rgba(255, 255, 255, 0.8)',
+        marginBottom: '0.3rem'
+    },
+    ratingTextSide: {
+        display: 'flex',
+        color: 'rgb(128, 128, 128)',
+        // color: 'rgba(255, 255, 255, 0.8)',
+        marginBottom: '0.3rem'
     }
 
 }))
