@@ -1,12 +1,21 @@
 import React from 'react';
+import { useDispatch } from "react-redux";
+import { addToFavorite } from "../store";
 import { Box, Typography, Rating, Divider, Drawer, List, ListItem, ListItemText, Chip, Avatar, IconButton } from '@mui/material';
 // import GoogleIcon from '@mui/icons-material/Google';
 import LaunchIcon from '@mui/icons-material/Launch';
 import StarIcon from '@mui/icons-material/Star';
 import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCardMedia } from '../styles';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen }) => {
     restaurants = restaurants.currentData();
+    const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onClick = (restaurant, user) => {
+    dispatch(addToFavorite(restaurant, user));
+  };
     
     const classes = useStyles();
     return(
@@ -28,6 +37,11 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                     title={restaurant.name}
                                 />
                                 <FiCardContent className={classes.fiCardContent}>
+                                                  <FavoriteBorderIcon
+                  onClick={() => {
+                    onClick(restaurant, user);
+                  }}
+                />
                                     <Typography
                                         gutterBottom
                                         variant='h5'
