@@ -1,30 +1,30 @@
-import axios from "axios";
-
-//ACTION TYPES
-const FIND_SPOTS_FOUR = "FIND_SPOTS_FOUR";
-
-//ACTION CREATORS
-const _findNearbyFour = (nearByFour) => {
-  return {
-    type: FIND_SPOTS_FOUR,
-    nearByFour,
-  };
-};
-
-//THUNKS
-export const findNearbyFour = (zip) => {
-  return async (dispatch) => {
-    const nearbySpots = (await axios.get(`/api/fourAPI/${zip}`)).data;
-    dispatch(_findNearbyFour(nearbySpots));
-  };
-};
-
-//REDUCER
-export default (state = [], action) => {
-  switch (action.type) {
-    case FIND_SPOTS_FOUR:
-      return [action.nearByFour];
-    default:
-      return state;
+const router = require("express").Router();
+module.exports = router;
+const axios = require("axios");
+router.get("/:zip", async (req, res, next) => {
+  try {
+    let data = [];
+    let stringer = "";
+    for (let i = 13000; i < 13387; i++) {
+      stringer = stringer + `,${i}`;
+    }
+    await axios
+      .get(`https://api.foursquare.com/v3/places/search`, {
+        headers: {
+          Authorization: `${process.env.SECRET_KEY_FOURSQUARE}`,
+        },
+        params: {
+          near: req.params.zip,
+          categories: stringer.substring(1),
+          limit: 50,
+          fields: "rating,name,fsq_id,location,website,stats",
+        },
+      })
+      .then((response) => {
+        data = response.data.results;
+      });
+    res.send(data);
+  } catch (err) {
+    next(err);
   }
 };
