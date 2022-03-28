@@ -36,11 +36,14 @@ const Home = () => {
     });
     // HANDLE DRAWER
     const handleDrawer = (openBool, id) => {
-        console.log(id)
-        console.log(totalRests[id])
+    // const handleDrawer = (ev) => {
+        // const found = totalRests.filter(r => r.name === ev.target.innerText)
+        // console.log(found[0].id)
         setIsDrawerOpen({
             isOpen: openBool,
             currentIdx: id
+            // isOpen: true,
+            // currentIdx: found[0].id
         })
     }
     // ZIPCODE LOCATION
@@ -100,7 +103,6 @@ const Home = () => {
     }, [ state.yelpSlice[0] ])
     const combineArr = (arr1, arr2) => {
         return arr1.map((e, idx) => {
-            e.id = idx
             arr2.forEach((x) => {
                 if( x.name === e.name ){
                     e.gRating = x.gRating;
@@ -120,7 +122,7 @@ const Home = () => {
         return arr1.map((e)=>{
             arr2.forEach((x)=>{
                 if(x.name === e.name){
-                    e.fRating = x.fRating;
+                    e.fRating = parseFloat((x.fRating / 2).toFixed(1));
                     e.fTotal = x.fTotal;
                     e.restUrl = x.restUrl;
                 } else {
@@ -131,8 +133,29 @@ const Home = () => {
             return e;
         })
         // .sort((a, b) => b.gRating - a.gRating);
+        // .sort((a, b) => b.fRating - a.fRating);
     }
-    // GOOGLE SETSTATE, BOTH DATA
+    const reduceSize = (arr) => {
+        // if only yelp and both google, fsq is not available drop
+        const returnArr = []
+        arr.map(r => {
+            if(r.gRating || r.fRating){
+                returnArr.push(r)
+            } 
+        })
+        returnArr.forEach((e, idx) => {
+            e.id = idx;
+            if(e.gRating){ // just yelp and google
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.gTotal)) + e.gRating * (e.gTotal / (e.yTotal + e.gTotal))).toFixed(1))
+            } else if(e.fRating){ // just yelp and 4sq
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.fTotal)) + e.fRating * (e.fTotal / (e.yTotal + e.fTotal))).toFixed(1))
+            } else { // all 3
+                e.oRating = parseFloat((e.yRating * (e.yTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.gRating * (e.gTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.fRating * (e.fTotal/(e.yTotal + e.fTotal + e.gTotal))).toFixed(1))
+            }
+        })
+        return returnArr
+    }
+    // GOOGLE SETSTATE
     useEffect(()=>{
         try{
             if(state.googleStore.gRest){
@@ -148,7 +171,8 @@ const Home = () => {
                 setRestaurantsG(cleanGoog)
                 const combined = combineArr(restaurantsY, cleanGoog)
                 const combinedWithFour = combineArr2(combined, restaurantsF)
-                setTotalRests(combinedWithFour);
+                const reduced = reduceSize(combinedWithFour)
+                setTotalRests(reduced);
                 setLoading(false);
             }
         } catch(e){
@@ -191,7 +215,7 @@ const Home = () => {
             console.log(err)
         }
     }
-    console.log(totalRests)
+    // console.log(totalRests)
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
