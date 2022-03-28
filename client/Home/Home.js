@@ -62,15 +62,12 @@ const Home = () => {
         try{
             if(state.fourSlice[0]){
                 setLoading(true)
-                const cleanFour = [...state.fourSlice[0].businesses].map((e)=>{
+                const cleanFour = [...state.fourSlice[0]].map((e)=>{
                     return {
                         name: e.name,
                         fRating: e.rating,
-                        fLat: e.coordinates.latitude,
-                        // image: e.image_url,
-                        fTotal: e.review_count,
-                        category: e.categories.map(c => c.title),
-                        url: e.url,
+                        fTotal: e.stats['total_ratings'],
+                        restUrl: e.website,
                     }
                 })
                 setRestaurantsF(cleanFour);
@@ -119,6 +116,22 @@ const Home = () => {
         })
         // .sort((a, b)=> b.gRating - a.gRating)
     }
+    const combineArr2 = (arr1, arr2) => {
+        return arr1.map((e)=>{
+            arr2.forEach((x)=>{
+                if(x.name === e.name){
+                    e.fRating = x.fRating;
+                    e.fTotal = x.fTotal;
+                    e.restUrl = x.restUrl;
+                } else {
+                    e.fRating = e.fRating ? e.fRating : 0;
+                    e.fTotal = e.fTotal > 0 ? e.fTotal : 0;
+                }
+            })
+            return e;
+        })
+        // .sort((a, b) => b.gRating - a.gRating);
+    }
     // GOOGLE SETSTATE, BOTH DATA
     useEffect(()=>{
         try{
@@ -134,7 +147,8 @@ const Home = () => {
                 }) 
                 setRestaurantsG(cleanGoog)
                 const combined = combineArr(restaurantsY, cleanGoog)
-                setTotalRests(combined);
+                const combinedWithFour = combineArr2(combined, restaurantsF)
+                setTotalRests(combinedWithFour);
                 setLoading(false);
             }
         } catch(e){
@@ -177,6 +191,7 @@ const Home = () => {
             console.log(err)
         }
     }
+    console.log(totalRests)
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>

@@ -55,8 +55,6 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                             Yelp: {restaurant.yRating}
                                             <span>&nbsp;</span>
                                             <StarIcon />
-                                            {/* <img src={`/pictures/small_${restaurant.yRating}.png`} /> */}
-                                            {/* <Rating name="read-only" value={restaurant.yRating} precision={0.1} readOnly /> */}
                                             <span>&nbsp;</span>
                                             {/* ({restaurant.yTotal.toLocaleString('en-US')}) */}
                                         </Typography>
@@ -66,15 +64,14 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                             Google: {restaurant.gRating}
                                             <span> &nbsp; </span>
                                             <StarIcon />
-                                            {/* <Rating name="read-only" value={restaurant.gRating} precision={0.1} readOnly /> */}
                                             <span>&nbsp;</span>
                                             {/* ({restaurant.gTotal.toLocaleString('en-US')}) */}
                                         </Typography>
                                         <Typography className={classes.ratingText}>
-                                            Foursquare: 
+                                            Foursquare: {restaurant.fRating / 2}
                                             <span> &nbsp; </span>
-                                            {/* <Rating name="read-only" value={restaurant.gRating} precision={0.1} readOnly /> */}
-                                            {/* <span>&nbsp;</span> */}
+                                            <StarIcon />
+                                            <span>&nbsp;</span>
                                             {/* ({restaurant.gTotal.toLocaleString('en-US')}) */}
                                         </Typography>
                                     </Box>
@@ -192,6 +189,9 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                             </Typography>
                             <Typography className={classes.ratingTextSide}>
                                 <span>&nbsp;</span><span>&nbsp;</span>
+                                {restaurants[isDrawerOpen.currentIdx]?.fRating} <span>&nbsp;</span>
+                                <Rating name="read-only" value={restaurants[isDrawerOpen.currentIdx]?.fRating} precision={0.1} readOnly />
+                                {restaurants[isDrawerOpen.currentIdx]?.fTotal} reviews
                             </Typography>
                             <ListItemText
                                 style={{ marginTop: '2rem'}}
