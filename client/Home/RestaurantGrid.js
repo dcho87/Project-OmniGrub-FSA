@@ -145,10 +145,13 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen, s
                                 <span>&nbsp;</span>
                                 <Rating name="read-only" value={ totalRests[isDrawerOpen.currentIdx]?.oRating } precision={0.1} readOnly />
                             </Typography>
+                            <Typography style={{ fontSize: '0.7rem', color: 'rgb(128, 128, 128)',}}>
+                                * weighted average 
+                            </Typography>
                             <Divider variant="middle" />
                             <hr />
-                            {/* <ListItemText>{restaurants[isDrawerOpen.currentIdx]?.name}</ListItemText> */}
-                            <Typography>
+                            
+                            <Typography className={classes.ratingTextSide}>
                                 Yelp: 
                                 <span>&nbsp;</span>
                                 <IconButton sx={{ p: '2px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
@@ -156,7 +159,7 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen, s
                                 </IconButton>
                             </Typography>
                             <Typography className={classes.ratingTextSide}>
-                            {/* <ListItemText> */}
+                            
                                 <span>&nbsp;</span><span>&nbsp;</span>
                                 {totalRests[isDrawerOpen.currentIdx]?.yRating} 
                                 <span>&nbsp;</span>
@@ -164,41 +167,60 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen, s
                                 <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.yRating} precision={0.1} readOnly />
                                 <span>&nbsp;</span>
                                 {totalRests[isDrawerOpen.currentIdx]?.yTotal.toLocaleString('en-US')} reviews
-                            {/* </ListItemText> */}
+                            
                                 
                             </Typography>
                             
                             <Divider variant="middle" />
                             <hr />
-                            <Typography>
+                            <Typography className={classes.ratingTextSide}>
                                 Google: 
                                 <span>&nbsp;</span>
-                                <IconButton sx={{ p: '2px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
+                                { totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ? 
+                                
+                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
                                     <LaunchIcon />
                                 </IconButton>
+                                : ''
+                                }
                             </Typography>
-                            <Typography className={classes.ratingTextSide}>
-                            {/* <ListItemText> */}
-                                <span>&nbsp;</span><span>&nbsp;</span>
-                                {totalRests[isDrawerOpen.currentIdx]?.gRating} <span>&nbsp;</span>
-                                <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.gRating} precision={0.1} readOnly />
-                                {totalRests[isDrawerOpen.currentIdx]?.gTotal} reviews
-                            {/* </ListItemText> */}
-                            </Typography>
+                            { totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ?
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.gRating} <span>&nbsp;</span>
+                                    <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.gRating} precision={0.1} readOnly />
+                                    {totalRests[isDrawerOpen.currentIdx]?.gTotal} reviews
+                                </Typography>
+                                    : 
+                                    <Typography className={classes.ratingTextSide}>
+                                        <span>&nbsp;</span><span>&nbsp;</span>Not found on Google
+                                    </Typography>
+                                }
+                            
                             <hr />
-                            <Typography>
+                            <Typography className={classes.ratingTextSide}>
                                 Foursquare: 
                                 <span>&nbsp;</span>
-                                <IconButton sx={{ p: '2px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
+                                { totalRests[isDrawerOpen.currentIdx]?.fRating !== 0 ?
+                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
                                     <LaunchIcon />
                                 </IconButton>
+                                : ''
+                                }
                             </Typography>
-                            <Typography className={classes.ratingTextSide}>
-                                <span>&nbsp;</span><span>&nbsp;</span>
-                                {totalRests[isDrawerOpen.currentIdx]?.fRating} <span>&nbsp;</span>
-                                <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.fRating} precision={0.1} readOnly />
-                                {totalRests[isDrawerOpen.currentIdx]?.fTotal} reviews
-                            </Typography>
+                            { totalRests[isDrawerOpen.currentIdx]?.fRating !== 0 ?
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.fRating} <span>&nbsp;</span>
+                                    <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.fRating} precision={0.1} readOnly />
+                                    <span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.fTotal} reviews
+                                </Typography>
+                                :
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>Not found on Foursquare
+                                </Typography>
+                            }
                             <ListItemText
                                 style={{ marginTop: '2rem'}}
                             >
