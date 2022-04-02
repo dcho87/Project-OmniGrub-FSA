@@ -15,7 +15,17 @@ export const UserDropdown = (props) =>{
         <div>
             <Link to="favorites" style={{textDecoration:"none"}}>
             <MenuItem>
-              <FavoriteIcon color="primary" sx={{ height: "40px", width: "30px", marginRight: 1 }} />
+              <FavoriteIcon 
+                // color="primary"
+                className=".fav"
+                sx={{ 
+                  height: "40px", 
+                  width: "30px", 
+                  marginRight: 1, 
+                  fill: "#E74E35"
+
+                }} 
+              />
               <Typography
                 sx={{
                   fontFamily: "lato",

@@ -1,7 +1,11 @@
 const db = require("../db");
-const { STRING, INTEGER, TEXT } = db.Sequelize.DataTypes;
+const { STRING, INTEGER, TEXT, DECIMAL } = db.Sequelize.DataTypes;
 
 const RestaurantG = db.define("restaurantg", {
+  id: {
+    type: TEXT,
+    primaryKey: true,
+  },
   name: {
     type: STRING,
     allowNull: false,
@@ -17,27 +21,11 @@ const RestaurantG = db.define("restaurantg", {
     },
   },
   rating: {
-    type: INTEGER,
+    type: DECIMAL,
     allowNull: false,
     validate: {
       notEmpty: true,
     },
-  },
-  zipCode: {
-    type: INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  address: {
-    type: TEXT,
-  },
-  description: {
-    type: TEXT,
-  },
-  category: {
-    type: STRING,
   },
 });
 

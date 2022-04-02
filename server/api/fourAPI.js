@@ -27,4 +27,4 @@ router.get("/:zip", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+})

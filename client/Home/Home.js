@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby } from '../store';
+import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby, findNearbyFour, } from '../store';
 import { Box, Container, Typography, Paper, Pagination } from '@mui/material';
 import { useStyles } from '../styles';
 import LocationInput from './LocationInput';
@@ -13,11 +13,11 @@ const Home = () => {
     const state = useSelector((state) => state);
     const classes = useStyles();
     // STATES
-    const [ loadedY, setLoadedY ] = useState(false);
-    const [ loadedG, setLoadedG ] = useState(false);
     const [ restaurantsY, setRestaurantsY ] = useState([]);
     const [ restaurantsG, setRestaurantsG ] = useState([]);
+    const [ restaurantsF, setRestaurantsF ] = useState([]);
     const [ totalRests, setTotalRests ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
     // LOCATION
     const [ zip, setZip ] = useState("");
     // PAGINATION
@@ -29,6 +29,23 @@ const Home = () => {
     const cuisines = ['Show All', 'Asian', 'Burgers', 'Pizza', 'Mexican', 'Chinese', 'Thai', 'Japanese', 'Korean', 'American', 'Chicken', 'Indian', 'Healthy', 'Salads', 'Vegan', 'Italian', 'Breakfast & Brunch', 'Diner', 'Desserts', 'Fast Food', 'Bubble Tea', 'Bakery', 'Vietnamese', 'French', 'Spanish', 'Taiwanese', 'Poke', 'African', 'Ramen', 'Sushi', 'BBQ', 'Soup', 'Coffee & Tea', 'Sandwich', 'Smoothy', 'Kosher', 'Soul Food', 'Brazilian', 'Comfort Food', 'Greek', 'Portuguese', 'Dominican', 'Wings', 'Barfood', 'Turkish', 'Alcohol']
     const [ category, setCategory ] = useState(cuisines);
     const [ filtered, setFiltered ] = useState(false);
+    // DRAWER
+    const [ isDrawerOpen, setIsDrawerOpen ] = useState({
+        isOpen: false,
+        currentIdx: 0
+    });
+    // HANDLE DRAWER
+    const handleDrawer = (openBool, id) => {
+    // const handleDrawer = (ev) => {
+        // const found = totalRests.filter(r => r.name === ev.target.innerText)
+        // console.log(found[0].id)
+        setIsDrawerOpen({
+            isOpen: openBool,
+            currentIdx: id
+            // isOpen: true,
+            // currentIdx: found[0].id
+        })
+    }
     // ZIPCODE LOCATION
     const onChange = (ev) => {
         setZip({ ...zip, zip: ev.target.value });
@@ -36,22 +53,37 @@ const Home = () => {
     const onSubmit = (ev) => {
         ev.preventDefault();
         try {
-            dispatch(findNearby(zip.zip)).then(() => {
-                setRestaurantsY(state.yelpSlice[0]);
-                setLoadedY(true);
-              })
-            dispatch(getGoogleRestaurant(zip.zip)).then(()=>{
-                setRestaurantsG(state.googleStore.gRest);
-                setLoadedG(true);
-            });
+            dispatch(findNearby(zip.zip)).then(() => setRestaurantsY(state.yelpSlice[0]));
+            dispatch(getGoogleRestaurant(zip.zip)).then(()=> setRestaurantsG(state.googleStore.gRest));
+            dispatch(findNearbyFour(zip.zip)).then(()=> setRestaurantsF(state.fourSlice[0]));
         } catch (error) {
             console.log(error);
         }
     };
+    // FOUR SETSTATE
+    useEffect(()=>{
+        try{
+            if(state.fourSlice[0]){
+                setLoading(true)
+                const cleanFour = [...state.fourSlice[0]].map((e)=>{
+                    return {
+                        name: e.name,
+                        fRating: e.rating,
+                        fTotal: e.stats['total_ratings'],
+                        restUrl: e.website,
+                    }
+                })
+                setRestaurantsF(cleanFour);
+            }
+        } catch(e){
+            console.log(e)
+        }
+    }, [ state.fourSlice[0] ])
     // YELP SETSTATE
     useEffect(()=>{
         try{
-            if(loadedY){
+            if(state.yelpSlice[0]){
+                setLoading(true)
                 const cleanYelp = [...state.yelpSlice[0].businesses].map((e)=>{
                     return {
                         name: e.name,
@@ -68,9 +100,9 @@ const Home = () => {
         } catch(e){
             console.log(e)
         }
-    }, [loadedY, state.yelpSlice[0]])
+    }, [ state.yelpSlice[0] ])
     const combineArr = (arr1, arr2) => {
-        return arr1.map((e) => {
+        return arr1.map((e, idx) => {
             arr2.forEach((x) => {
                 if( x.name === e.name ){
                     e.gRating = x.gRating;
@@ -84,11 +116,49 @@ const Home = () => {
             })
             return e
         })
+        // .sort((a, b)=> b.gRating - a.gRating)
     }
-    // GOOGLE SETSTATE, BOTH DATA
+    const combineArr2 = (arr1, arr2) => {
+        return arr1.map((e)=>{
+            arr2.forEach((x)=>{
+                if(x.name === e.name){
+                    e.fRating = parseFloat((x.fRating / 2).toFixed(1));
+                    e.fTotal = x.fTotal;
+                    e.restUrl = x.restUrl;
+                } else {
+                    e.fRating = e.fRating ? e.fRating : 0;
+                    e.fTotal = e.fTotal > 0 ? e.fTotal : 0;
+                }
+            })
+            return e;
+        })
+        // .sort((a, b) => b.gRating - a.gRating);
+        // .sort((a, b) => b.fRating - a.fRating);
+    }
+    const reduceSize = (arr) => {
+        // if only yelp and both google, fsq is not available drop
+        const returnArr = []
+        arr.map(r => {
+            if(r.gRating || r.fRating){
+                returnArr.push(r)
+            } 
+        })
+        returnArr.forEach((e, idx) => {
+            e.id = idx;
+            if(e.gRating){ // just yelp and google
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.gTotal)) + e.gRating * (e.gTotal / (e.yTotal + e.gTotal))).toFixed(1))
+            } else if(e.fRating){ // just yelp and 4sq
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.fTotal)) + e.fRating * (e.fTotal / (e.yTotal + e.fTotal))).toFixed(1))
+            } else { // all 3
+                e.oRating = parseFloat((e.yRating * (e.yTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.gRating * (e.gTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.fRating * (e.fTotal/(e.yTotal + e.fTotal + e.gTotal))).toFixed(1))
+            }
+        })
+        return returnArr
+    }
+    // GOOGLE SETSTATE
     useEffect(()=>{
         try{
-            if(loadedG){
+            if(state.googleStore.gRest){
                 const cleanGoog = [...state.googleStore.gRest].map((e) => {
                     return {
                         name: e.name,
@@ -98,14 +168,17 @@ const Home = () => {
                         gId: e.place_id,
                     }
                 }) 
-                setRestaurantsG(cleanGoog);
+                setRestaurantsG(cleanGoog)
                 const combined = combineArr(restaurantsY, cleanGoog)
-                setTotalRests(combined);
+                const combinedWithFour = combineArr2(combined, restaurantsF)
+                const reduced = reduceSize(combinedWithFour)
+                setTotalRests(reduced);
+                setLoading(false);
             }
         } catch(e){
             console.log(e)
         }
-    }, [loadedG, state.googleStore])
+    }, [state.googleStore])
     // FILTERING 
     const handleFilter = (ev) => {
         let newCuisine = ev.target.textContent;
@@ -132,8 +205,17 @@ const Home = () => {
     }
     async function geoCode() {
         const p = await getPosition();
-        dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude));
+        try{
+            dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude))
+                .then(()=>{
+                    setRestaurantsY(state.yelpSlice[0]);
+                    setRestaurantsG(state.googleStore.gRest);
+                })
+        } catch(err){
+            console.log(err)
+        }
     }
+    // console.log(totalRests)
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6, minHeight: "100vh" }}>
@@ -150,7 +232,12 @@ const Home = () => {
                 </Container>
                 <Paper className={classes.containerBoth}>
                     <Category cuisines={cuisines} handleFilter={handleFilter} />
-                    { totalRests ? <RestaurantGrid restaurants={_totalRests} /> : 'Loading...' }
+                    { loading ? <img id="loading" style={{ height: "auto" }} src="/pictures/snail.gif" /> : ''}
+                    { totalRests ? 
+                        <RestaurantGrid restaurants={_totalRests} totalRests={totalRests} setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} handleDrawer={handleDrawer} /> 
+                        :
+                        ''
+                    }
                 </Paper>
                 <Pagination
                     className={classes.pagination}
