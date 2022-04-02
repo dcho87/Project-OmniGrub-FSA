@@ -92,7 +92,7 @@ router.get("/searchnear/:location", async (req, res, next) => {
       });
       //Last line that sends out to the front end
       res.send(response.data);
-    }, 5000);
+    }, 6000);
   } catch (err) {
     next(err);
   }
@@ -102,11 +102,11 @@ router.get("/searchnear/:location", async (req, res, next) => {
 router.get("/placedata/:id", async (req, res, next) => {
   try {
     const response = await axios.get(
-      "https://maps.googleapis.com/maps/api/place/details/json",
+      "https://maps.googleapis.com/maps/api/place/textsearch/json",
       {
         params: {
           key: process.env.SECRET_KEY_GOOGLE,
-          place_id: req.params.id,
+          query: ["restaurant", req.params.id],
           fields: [
             "name",
             "rating",

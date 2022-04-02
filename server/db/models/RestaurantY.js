@@ -56,7 +56,7 @@ const RestaurantY = db.define("restauranty", {
   category: {
     type: STRING,
   },
-  lat: {
+  yLat: {
     type: DECIMAL,
   },
 });
