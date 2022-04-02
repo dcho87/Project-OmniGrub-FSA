@@ -4,7 +4,6 @@ import Google from "./APICalls/google";
 import { HomeYelp } from "./Home/HomeYelp";
 import HomeTest from "./Home/HomeTest";
 import Home from "./Home/Home";
-import { NavBar } from "./Components/NavBar/NavBar";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LoginPage } from "./Components/Login/LoginPage";
 import { me } from "./store";
@@ -14,6 +13,8 @@ import { SignUp } from "./Components/Login/SignUp";
 import { FlashMessage } from "./Components/FlashMessage/FlashMessage";
 import { PageNotFound } from "./Components/PageNotFound";
 import { Favorite } from "./Components/Favorite/favorites";
+import { MyAccount } from "./Components/MyAccount/MyAccount";
+import { Footer } from "./Components/Footer";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -52,10 +53,14 @@ export const App = () => {
           <Route element={<WithNav />}>
             <Route path="/google" element={<Google />} />
           </Route>
+          <Route element={<WithNav />}>
+            <Route path="/account" element={<MyAccount />}/>
+          </Route>
           <Route element={<WithoutNav />}>
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </div>
   );
