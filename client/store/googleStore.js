@@ -1,4 +1,5 @@
 import axios from "axios";
+import { findNearbyFour } from ".";
 import { findNearby } from "./yelpSlice";
 
 // ACTION TYPES CONSTANTS
@@ -29,8 +30,10 @@ export const reverseGeocode = (lat, lng) => {
     const geoData = (await axios.get(`/api/google/geocode/reverse/${latlng}`))
       .data;
     const zipcode = geoData.results[0].address_components[6].long_name;
-    dispatch(getGoogleRestaurant(zipcode));
     dispatch(findNearby(zipcode));
+    dispatch(findNearbyFour(zipcode)).then(
+      dispatch(getGoogleRestaurant(zipcode))
+    );
   };
 };
 

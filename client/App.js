@@ -13,6 +13,7 @@ import WithoutNav from "./Components/NavToggle/WithoutNav";
 import { SignUp } from "./Components/Login/SignUp";
 import { FlashMessage } from "./Components/FlashMessage/FlashMessage";
 import { PageNotFound } from "./Components/PageNotFound";
+import { Favorite } from "./Components/Favorite/favorites";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <FlashMessage/>
+        <FlashMessage />
         <Routes>
           <Route element={<WithNav />}>
             <Route path="/homeFinal" element={<Home />} />
@@ -35,6 +36,9 @@ export const App = () => {
           </Route>
           <Route element={<WithNav />}>
             <Route path="/homeyelp" element={<HomeYelp />} />
+          </Route>
+          <Route element={<WithNav />}>
+            <Route path="/favorites" element={<Favorite />} />
           </Route>
           <Route element={<WithNav />}>
             <Route path="/" element={<HomeYelp />} />
@@ -49,7 +53,7 @@ export const App = () => {
             <Route path="/google" element={<Google />} />
           </Route>
           <Route element={<WithoutNav />}>
-          <Route path="*" element={<PageNotFound />} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

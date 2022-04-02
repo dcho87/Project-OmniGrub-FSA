@@ -59,7 +59,7 @@ router.put("/:id", async (req, res, next) => {
         yrating: req.body.yRating,
         url: req.body.url,
         image: req.body.image,
-        lat: req.body.yLat,
+        yLat: req.body.yLat,
       },
     });
 

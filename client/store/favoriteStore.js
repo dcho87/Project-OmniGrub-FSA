@@ -17,12 +17,16 @@ const _addToFavorite = (favorite) => ({
 });
 
 // THUNKS
-export const fetchFavorite = () => {
+export const fetchFavorite = (user) => {
   return async (dispatch) => {
-    const user = (await axios.get("/auth/me")).data;
-    const favoriteId = (await axios.get(`/favorite/${user.id}`)).data.id;
-    const favorite = (await axios.get(`/api/favorite/list/${favoriteId}`)).data;
-    dispatch(_fetchFavorite(favorite));
+    if (user) {
+      const favoriteId = (await axios.get(`/api/favorite/${user.id}`)).data.id;
+      const favorite = (await axios.get(`/api/favorite/list/${favoriteId}`))
+        .data;
+      dispatch(_fetchFavorite(favorite));
+    } else {
+      return {};
+    }
   };
 };
 
