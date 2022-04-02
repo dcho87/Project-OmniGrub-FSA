@@ -80,6 +80,7 @@ export const SignUp = () => {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
+            minHeight: "100vh",
           }}
         >
           <Link to="/">

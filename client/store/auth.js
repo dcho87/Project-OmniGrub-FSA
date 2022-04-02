@@ -5,9 +5,11 @@ const TOKEN = "token";
 
 //ACTION TYPES
 const SET_AUTH = "SET_AUTH";
+const UPDATE_USER = "UPDATE_USER";
 
 //ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
+const upUser = (user) => ({ type: UPDATE_USER, user });
 
 //THUNK CREATORS
 
@@ -77,6 +79,18 @@ export const oauth = (data) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch(setAuth({}));
   window.localStorage.removeItem(TOKEN);
+};
+
+
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    try {
+      const newUser = (await axios.put(`/api/users/${user.id}`, user)).data;
+      dispatch(upUser(newUser));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
 
 //REDUCER

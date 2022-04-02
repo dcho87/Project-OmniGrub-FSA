@@ -136,7 +136,7 @@ const Home = () => {
     }
     return(
         <main className={classes.root}>
-            <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
+            <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6, minHeight: "100vh" }}>
                 <Container maxWidth="sm" className={classes.hero}>
                     <Typography
                         variant="h2"

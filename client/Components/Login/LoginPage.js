@@ -56,6 +56,7 @@ export const LoginPage = () => {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
+            minHeight: "100vh",
           }}
         >
         <Link to="/">

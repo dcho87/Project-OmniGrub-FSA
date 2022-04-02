@@ -42,25 +42,6 @@ export const UserDropdown = (props) =>{
               </Typography>
             </MenuItem>
           </Link>
-          {user.isAdmin ? (
-            <MenuItem
-              onClick={() => {
-                navigate("/admin-hub");
-              }}
-            >
-              <ListItemIcon sx={{color:"#9ba3ab"}}>
-                <AdminPanelSettingsIcon sx={{ height: "40px", width: "30px", marginRight: 1}}/>
-              </ListItemIcon>
-              <Typography
-                sx={{
-                  fontFamily: "lato",
-                  color: "black",
-                }}
-              >
-                Admin
-              </Typography>
-            </MenuItem>
-          ) : null}
         </div>
     )
 }
