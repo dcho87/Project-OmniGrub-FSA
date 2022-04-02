@@ -6,9 +6,9 @@ import {
   reverseGeocode,
   findNearby,
   findNearbyFour,
-} from "../store";
+} from "../../store";
 import { Box, Container, Typography, Paper, Pagination } from "@mui/material";
-import { useStyles } from "../styles";
+import { useStyles } from "../../styles";
 import LocationInput from "./LocationInput";
 import Category from "./Category";
 import RestaurantGrid from "./RestaurantGrid";
@@ -298,7 +298,7 @@ const Home = () => {
   // console.log(totalRests)
   return (
     <main className={classes.root}>
-      <Box sx={{ bgcolor: "#FFF", pt: 8, pb: 6 }}>
+      <Box sx={{ bgcolor: "#FFF", pt: 8, pb: 6, minHeight:"100vh" }}>
         <Container maxWidth="sm" className={classes.hero}>
           <Typography
             variant="h2"

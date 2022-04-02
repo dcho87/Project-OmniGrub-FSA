@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addToFavorite } from "../store";
+import { addToFavorite } from "../../store";
 import {
   Box,
   Typography,
@@ -25,7 +25,7 @@ import {
   FiCardActions,
   FiCardContent,
   FiCardMedia,
-} from "../styles";
+} from "../../styles";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Snackbar from "@mui/material/Snackbar";

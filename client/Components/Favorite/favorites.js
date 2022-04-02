@@ -35,7 +35,7 @@ export const Favorite = () => {
   };
 
   return (
-    <Paper className={classes.containerBoth}>
+    <Paper className={classes.containerBoth} sx={{minHeight:"80vh"}}>
       {store.map((restaurants, idx) => {
         const restaurant = restaurants.restauranty;
         return (
