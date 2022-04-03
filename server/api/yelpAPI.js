@@ -32,7 +32,7 @@ router.get("/:zip", async (req, res, next) => {
 
     //Second and so fourth queries, offset is set to 50 at first then it increments by 50 until 'toggle' is set to true indicating the previous data length is the same as the current data length
     let offset = 50;
-    while (offset < 650) {
+    while (offset < 50) {
       await axios
         .get(`https://api.yelp.com/v3/businesses/search`, {
           headers: {
