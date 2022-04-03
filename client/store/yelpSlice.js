@@ -1,4 +1,5 @@
 import axios from "axios";
+import { searchPlace } from ".";
 
 //ACTION TYPES
 const FIND_SPOTS = "FIND_SPOTS";
@@ -15,6 +16,7 @@ const _findNearby = (nearBySpots) => {
 export const findNearby = (zip) => {
   return async (dispatch) => {
     const nearbySpots = (await axios.get(`/api/yelpAPI/${zip}`)).data;
+    dispatch(searchPlace(nearbySpots.businesses));
     dispatch(_findNearby(nearbySpots));
   };
 };

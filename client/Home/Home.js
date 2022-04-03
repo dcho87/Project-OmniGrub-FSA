@@ -106,12 +106,11 @@ const Home = () => {
   const onSubmit = (ev) => {
     ev.preventDefault();
     try {
-      dispatch(findNearby(zip.zip)).then(() =>
-        setRestaurantsY(state.yelpSlice[0])
-      );
-      dispatch(getGoogleRestaurant(zip.zip)).then(() =>
-        setRestaurantsG(state.googleStore.gRest)
-      );
+      setRestaurantsG([]);
+      dispatch(findNearby(zip.zip))
+        .then(() => setRestaurantsY(state.yelpSlice[0]))
+        .then(() => setRestaurantsG(state.googleStore));
+
       dispatch(findNearbyFour(zip.zip)).then(() =>
         setRestaurantsF(state.fourSlice[0])
       );
@@ -163,7 +162,7 @@ const Home = () => {
   const combineArr = (arr1, arr2) => {
     return arr1.map((e, idx) => {
       arr2.forEach((x) => {
-        if (x.name === e.name) {
+        if (x.name.slice(0, 5) === e.name.slice(0, 5)) {
           e.gRating = x.gRating;
           e.gLat = x.gLat;
           e.gTotal = x.gTotal;
@@ -180,7 +179,7 @@ const Home = () => {
   const combineArr2 = (arr1, arr2) => {
     return arr1.map((e) => {
       arr2.forEach((x) => {
-        if (x.name === e.name) {
+        if (x.name.slice(0, 5) === e.name.slice(0, 5)) {
           e.fRating = parseFloat((x.fRating / 2).toFixed(1));
           e.fTotal = x.fTotal;
           e.restUrl = x.restUrl;
@@ -236,8 +235,8 @@ const Home = () => {
   // GOOGLE SETSTATE
   useEffect(() => {
     try {
-      if (state.googleStore.gRest) {
-        const cleanGoog = [...state.googleStore.gRest].map((e) => {
+      if (state.googleStore) {
+        const cleanGoog = [...state.googleStore].map((e) => {
           return {
             name: e.name,
             gRating: e.rating,
@@ -287,7 +286,7 @@ const Home = () => {
       dispatch(reverseGeocode(p.coords.latitude, p.coords.longitude)).then(
         () => {
           setRestaurantsY(state.yelpSlice[0]);
-          setRestaurantsG(state.googleStore.gRest);
+          setRestaurantsG(state.googleStore);
           setRestaurantsF(state.fourSlice[0]);
         }
       );
@@ -351,6 +350,5 @@ const Home = () => {
     </main>
   );
 };
-
 
 export default Home;

@@ -99,22 +99,18 @@ router.get("/searchnear/:location", async (req, res, next) => {
 });
 
 //GET Place Data
-router.get("/placedata/:id", async (req, res, next) => {
+router.put("/placedata", async (req, res, next) => {
   try {
     const response = await axios.get(
       "https://maps.googleapis.com/maps/api/place/textsearch/json",
       {
         params: {
           key: process.env.SECRET_KEY_GOOGLE,
-          query: ["restaurant", req.params.id],
-          fields: [
-            "name",
-            "rating",
-            "formatted_phone_number",
-            "url",
-            "photo",
-            "website",
-          ],
+          query:
+            "restaurant" +
+            req.body.name +
+            req.body.location.zip_code +
+            req.body.location.address1,
         },
       }
     );
