@@ -35,7 +35,7 @@ export const Favorite = () => {
   };
 
   return (
-    <Paper className={classes.containerBoth} sx={{minHeight:"80vh"}}>
+    <Paper className={classes.containerBoth} sx={{ minHeight: "80vh" }}>
       {store.map((restaurants, idx) => {
         const restaurant = restaurants.restauranty;
         return (
@@ -120,7 +120,7 @@ export const Favorite = () => {
                       <span>&nbsp;</span>
                     </Typography>
                     <Typography className={classes.ratingText}>
-                      Google: {restaurant.gRating}
+                      Google: {restaurant.grating}
                       <span> &nbsp; </span>
                       {restaurant.gRating === 0 ? (
                         <StarOutlineIcon sx={{ color: "#E74E35" }} />
@@ -130,7 +130,7 @@ export const Favorite = () => {
                       <span>&nbsp;</span>
                     </Typography>
                     <Typography className={classes.ratingText}>
-                      Foursquare: {restaurant.fRating}
+                      Foursquare: {restaurant.frating}
                       <span> &nbsp; </span>
                       {restaurant.fRating === 0 ? (
                         <StarOutlineIcon sx={{ color: "#E74E35" }} />

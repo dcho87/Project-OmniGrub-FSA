@@ -60,6 +60,8 @@ router.put("/:id", async (req, res, next) => {
         url: req.body.url,
         image: req.body.image,
         yLat: req.body.yLat,
+        frating: req.body.fRating,
+        freviewCounts: req.body.fTotal,
       },
     });
 
