@@ -41,6 +41,20 @@ const RestaurantY = db.define("restauranty", {
       notEmpty: true,
     },
   },
+  freviewCounts: {
+    type: INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  frating: {
+    type: DECIMAL,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
   zipCode: {
     type: INTEGER,
   },
