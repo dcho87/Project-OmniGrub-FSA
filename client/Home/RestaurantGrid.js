@@ -202,7 +202,7 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen, s
                                 Foursquare: 
                                 <span>&nbsp;</span>
                                 { totalRests[isDrawerOpen.currentIdx]?.fRating !== 0 ?
-                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
+                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.fUrl}>
                                     <LaunchIcon />
                                 </IconButton>
                                 : ''

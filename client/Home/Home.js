@@ -36,14 +36,9 @@ const Home = () => {
     });
     // HANDLE DRAWER
     const handleDrawer = (openBool, id) => {
-    // const handleDrawer = (ev) => {
-        // const found = totalRests.filter(r => r.name === ev.target.innerText)
-        // console.log(found[0].id)
         setIsDrawerOpen({
             isOpen: openBool,
             currentIdx: id
-            // isOpen: true,
-            // currentIdx: found[0].id
         })
     }
     // ZIPCODE LOCATION
@@ -71,6 +66,7 @@ const Home = () => {
                         fRating: e.rating,
                         fTotal: e.stats['total_ratings'],
                         restUrl: e.website,
+                        fUrl: `https://foursquare.com/v/${e.name}/${e.fsq_id}`
                     }
                 })
                 setRestaurantsF(cleanFour);
@@ -101,6 +97,7 @@ const Home = () => {
             console.log(e)
         }
     }, [ state.yelpSlice[0] ])
+
     const combineArr = (arr1, arr2) => {
         return arr1.map((e, idx) => {
             arr2.forEach((x) => {
@@ -125,6 +122,7 @@ const Home = () => {
                     e.fRating = parseFloat((x.fRating / 2).toFixed(1));
                     e.fTotal = x.fTotal;
                     e.restUrl = x.restUrl;
+                    e.fUrl = x.fUrl;
                 } else {
                     e.fRating = e.fRating ? e.fRating : 0;
                     e.fTotal = e.fTotal > 0 ? e.fTotal : 0;
@@ -169,9 +167,12 @@ const Home = () => {
                     }
                 }) 
                 setRestaurantsG(cleanGoog)
-                const combined = combineArr(restaurantsY, cleanGoog)
-                const combinedWithFour = combineArr2(combined, restaurantsF)
-                const reduced = reduceSize(combinedWithFour)
+                const combinedWithFour = combineArr2(restaurantsY, restaurantsF)
+                const combined = combineArr(combinedWithFour, cleanGoog)
+                const reduced = reduceSize(combined)
+                // const combined = combineArr(restaurantsY, cleanGoog)
+                // const combinedWithFour = combineArr2(combined, restaurantsF)
+                // const reduced = reduceSize(combinedWithFour)
                 setTotalRests(reduced);
                 setLoading(false);
             }
@@ -215,7 +216,7 @@ const Home = () => {
             console.log(err)
         }
     }
-    // console.log(totalRests)
+    console.log(totalRests)
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>

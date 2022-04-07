@@ -17,7 +17,7 @@ router.get("/:zip", async (req, res, next) => {
           near: req.params.zip,
           categories: stringer.substring(1),
           limit: 50,
-          fields: "rating,name,fsq_id,location,website,stats",
+          fields: "rating,name,fsq_id,location,website,stats,tips",
         },
       })
       .then((response) => {
