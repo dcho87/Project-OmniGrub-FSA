@@ -3,9 +3,10 @@ import { Box, Typography, Rating, Divider, Drawer, List, ListItem, ListItemText,
 // import GoogleIcon from '@mui/icons-material/Google';
 import LaunchIcon from '@mui/icons-material/Launch';
 import StarIcon from '@mui/icons-material/Star';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { useStyles, FiCard, FiCardActionArea, FiCardActions, FiCardContent, FiCardMedia } from '../styles';
 
-const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen }) => {
+const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen, setIsDrawerOpen }) => {
     restaurants = restaurants.currentData();
     
     const classes = useStyles();
@@ -33,7 +34,8 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                         variant='h5'
                                         component='h2'
                                         onClick={()=>handleDrawer(true, restaurant.id)}
-                                        style={{ cursor: 'pointer'}}
+                                        // onClick={(ev)=>handleDrawer(ev)}
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         {restaurant.name} 
                                     </Typography>
@@ -41,9 +43,9 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                         {/* Average Rating:  */}
                                         OmniGrub: 
                                         <span>&nbsp;</span>
-                                        { parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) }
+                                        { restaurant.oRating }
                                         <span>&nbsp;</span>
-                                        <Rating name="read-only" value={ parseFloat((restaurant.yRating * (restaurant.yTotal / (restaurant.yTotal + restaurant.gTotal)) + restaurant.gRating * (restaurant.gTotal / (restaurant.yTotal + restaurant.gTotal))).toFixed(1)) } precision={0.1} readOnly />
+                                        <Rating name="read-only" value={ restaurant.oRating } precision={0.1} readOnly />
                                     </Typography>
                                     <Typography>
                                         {/* {restaurant.category.join(', ')} */}
@@ -55,8 +57,6 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                             Yelp: {restaurant.yRating}
                                             <span>&nbsp;</span>
                                             <StarIcon />
-                                            {/* <img src={`/pictures/small_${restaurant.yRating}.png`} /> */}
-                                            {/* <Rating name="read-only" value={restaurant.yRating} precision={0.1} readOnly /> */}
                                             <span>&nbsp;</span>
                                             {/* ({restaurant.yTotal.toLocaleString('en-US')}) */}
                                         </Typography>
@@ -65,16 +65,15 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                                         <Typography className={classes.ratingText}>
                                             Google: {restaurant.gRating}
                                             <span> &nbsp; </span>
-                                            <StarIcon />
-                                            {/* <Rating name="read-only" value={restaurant.gRating} precision={0.1} readOnly /> */}
+                                            { restaurant.gRating === 0 ? <StarOutlineIcon />: <StarIcon />}
                                             <span>&nbsp;</span>
                                             {/* ({restaurant.gTotal.toLocaleString('en-US')}) */}
                                         </Typography>
                                         <Typography className={classes.ratingText}>
-                                            Foursquare: 
+                                            Foursquare: {(restaurant.fRating)}
                                             <span> &nbsp; </span>
-                                            {/* <Rating name="read-only" value={restaurant.gRating} precision={0.1} readOnly /> */}
-                                            {/* <span>&nbsp;</span> */}
+                                            { restaurant.fRating === 0 ? <StarOutlineIcon />: <StarIcon />}
+                                            <span>&nbsp;</span>
                                             {/* ({restaurant.gTotal.toLocaleString('en-US')}) */}
                                         </Typography>
                                     </Box>
@@ -106,6 +105,7 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
             <Drawer
                 anchor='right'
                 open={isDrawerOpen.isOpen}
+                // onClose={()=>setIsDrawerOpen({isOpen: false, currentIdx: 0})}
                 onClose={()=>handleDrawer(false)}
                 BackdropProps={{
                     style: {
@@ -134,69 +134,97 @@ const RestaurantGrid = ({ restaurants, totalRests, handleDrawer, isDrawerOpen })
                     </Box>
                     <List>
                         <ListItem className={classes.slidePanelDetails} spacing={1}>
-                            {/* <Typography>
+                            
+                            <Typography style={{ fontSize: '1.5rem', marginBottom: '0.6rem'}}>
+                                {totalRests[isDrawerOpen.currentIdx]?.name}
+                            </Typography>
+                            <Typography className={classes.ratingTextSide}>
                                 OmniGrub: 
                                 <span>&nbsp;</span>
-                                { parseFloat((restaurants[isDrawerOpen.currentIdx]?.yRating * ([isDrawerOpen.currentIdx]?.yTotal / ([isDrawerOpen.currentIdx]?.yTotal + [isDrawerOpen.currentIdx]?.gTotal)) + [isDrawerOpen.currentIdx]?.gRating * ([isDrawerOpen.currentIdx]?.gTotal / ([isDrawerOpen.currentIdx]?.yTotal + [isDrawerOpen.currentIdx]?.gTotal))).toFixed(1)) }
+                                {totalRests[isDrawerOpen.currentIdx]?.oRating} 
                                 <span>&nbsp;</span>
-                                <Rating name="read-only" value={ parseFloat((restaurants[isDrawerOpen.currentIdx]?.yRating * ([isDrawerOpen.currentIdx]?.yTotal / ([isDrawerOpen.currentIdx]?.yTotal + [isDrawerOpen.currentIdx]?.gTotal)) + [isDrawerOpen.currentIdx]?.gRating * ([isDrawerOpen.currentIdx]?.gTotal / ([isDrawerOpen.currentIdx]?.yTotal + [isDrawerOpen.currentIdx]?.gTotal))).toFixed(1)) } precision={0.1} readOnly />
-                            </Typography> */}
-                            <Typography style={{ fontSize: '1.5rem', marginBottom: '0.6rem'}}>
-                                {restaurants[isDrawerOpen.currentIdx]?.name}
+                                <Rating name="read-only" value={ totalRests[isDrawerOpen.currentIdx]?.oRating } precision={0.1} readOnly />
                             </Typography>
-                            {/* <ListItemText>{restaurants[isDrawerOpen.currentIdx]?.name}</ListItemText> */}
-                            <Typography>
+                            <Typography style={{ fontSize: '0.7rem', color: 'rgb(128, 128, 128)',}}>
+                                * weighted average 
+                            </Typography>
+                            <Divider variant="middle" />
+                            <hr />
+                            
+                            <Typography className={classes.ratingTextSide}>
                                 Yelp: 
                                 <span>&nbsp;</span>
-                                <IconButton sx={{ p: '2px' }} href={restaurants[isDrawerOpen.currentIdx]?.url}>
+                                <IconButton sx={{ p: '2px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
                                     <LaunchIcon />
                                 </IconButton>
                             </Typography>
                             <Typography className={classes.ratingTextSide}>
-                            {/* <ListItemText> */}
+                            
                                 <span>&nbsp;</span><span>&nbsp;</span>
-                                {restaurants[isDrawerOpen.currentIdx]?.yRating} 
+                                {totalRests[isDrawerOpen.currentIdx]?.yRating} 
                                 <span>&nbsp;</span>
                                 {/* <img src={`/pictures/small_${restaurants[isDrawerOpen.currentIdx]?.yRating}.png`} /> */}
-                                <Rating name="read-only" value={restaurants[isDrawerOpen.currentIdx]?.yRating} precision={0.1} readOnly />
+                                <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.yRating} precision={0.1} readOnly />
                                 <span>&nbsp;</span>
-                                {restaurants[isDrawerOpen.currentIdx]?.yTotal.toLocaleString('en-US')} reviews
-                            {/* </ListItemText> */}
+                                {totalRests[isDrawerOpen.currentIdx]?.yTotal.toLocaleString('en-US')} reviews
+                            
                                 
                             </Typography>
                             
                             <Divider variant="middle" />
                             <hr />
-                            <Typography>
+                            <Typography className={classes.ratingTextSide}>
                                 Google: 
                                 <span>&nbsp;</span>
-                                <IconButton sx={{ p: '2px' }} href={restaurants[isDrawerOpen.currentIdx]?.url}>
+                                { totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ? 
+                                
+                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.url}>
                                     <LaunchIcon />
                                 </IconButton>
+                                : ''
+                                }
                             </Typography>
-                            <Typography className={classes.ratingTextSide}>
-                            {/* <ListItemText> */}
-                                <span>&nbsp;</span><span>&nbsp;</span>
-                                {restaurants[isDrawerOpen.currentIdx]?.gRating} <span>&nbsp;</span>
-                                <Rating name="read-only" value={restaurants[isDrawerOpen.currentIdx]?.gRating} precision={0.1} readOnly />
-                                {restaurants[isDrawerOpen.currentIdx]?.gTotal} reviews
-                            {/* </ListItemText> */}
-                            </Typography>
+                            { totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ?
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.gRating} <span>&nbsp;</span>
+                                    <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.gRating} precision={0.1} readOnly />
+                                    {totalRests[isDrawerOpen.currentIdx]?.gTotal} reviews
+                                </Typography>
+                                    : 
+                                    <Typography className={classes.ratingTextSide}>
+                                        <span>&nbsp;</span><span>&nbsp;</span>Not found on Google
+                                    </Typography>
+                                }
+                            
                             <hr />
-                            <Typography>
+                            <Typography className={classes.ratingTextSide}>
                                 Foursquare: 
                                 <span>&nbsp;</span>
-                                <IconButton sx={{ p: '2px' }} href={restaurants[isDrawerOpen.currentIdx]?.url}>
+                                { totalRests[isDrawerOpen.currentIdx]?.fRating !== 0 ?
+                                <IconButton sx={{ p: '1.5px' }} href={totalRests[isDrawerOpen.currentIdx]?.fUrl}>
                                     <LaunchIcon />
                                 </IconButton>
+                                : ''
+                                }
                             </Typography>
-                            <Typography className={classes.ratingTextSide}>
-                                <span>&nbsp;</span><span>&nbsp;</span>
-                            </Typography>
+                            { totalRests[isDrawerOpen.currentIdx]?.fRating !== 0 ?
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.fRating} <span>&nbsp;</span>
+                                    <Rating name="read-only" value={totalRests[isDrawerOpen.currentIdx]?.fRating} precision={0.1} readOnly />
+                                    <span>&nbsp;</span>
+                                    {totalRests[isDrawerOpen.currentIdx]?.fTotal} reviews
+                                </Typography>
+                                :
+                                <Typography className={classes.ratingTextSide}>
+                                    <span>&nbsp;</span><span>&nbsp;</span>Not found on Foursquare
+                                </Typography>
+                            }
                             <ListItemText
                                 style={{ marginTop: '2rem'}}
                             >
-                                {restaurants[isDrawerOpen.currentIdx]?.category.map((c, i)=>{
+                                {totalRests[isDrawerOpen.currentIdx]?.category.map((c, i)=>{
                                     return(
                                         <Chip key={i} label={c} style={{ margin: '0.5rem' }} 
                                             // avatar={<Avatar alt={c} src={`pictures/cuisines/${c.split(' ').join('')}.png`} />}

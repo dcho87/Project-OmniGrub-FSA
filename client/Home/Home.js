@@ -36,8 +36,6 @@ const Home = () => {
     });
     // HANDLE DRAWER
     const handleDrawer = (openBool, id) => {
-        console.log(id)
-        console.log(totalRests[id])
         setIsDrawerOpen({
             isOpen: openBool,
             currentIdx: id
@@ -62,15 +60,13 @@ const Home = () => {
         try{
             if(state.fourSlice[0]){
                 setLoading(true)
-                const cleanFour = [...state.fourSlice[0].businesses].map((e)=>{
+                const cleanFour = [...state.fourSlice[0]].map((e)=>{
                     return {
                         name: e.name,
                         fRating: e.rating,
-                        fLat: e.coordinates.latitude,
-                        // image: e.image_url,
-                        fTotal: e.review_count,
-                        category: e.categories.map(c => c.title),
-                        url: e.url,
+                        fTotal: e.stats['total_ratings'],
+                        restUrl: e.website,
+                        fUrl: `https://foursquare.com/v/${e.name}/${e.fsq_id}`
                     }
                 })
                 setRestaurantsF(cleanFour);
@@ -101,9 +97,9 @@ const Home = () => {
             console.log(e)
         }
     }, [ state.yelpSlice[0] ])
+
     const combineArr = (arr1, arr2) => {
         return arr1.map((e, idx) => {
-            e.id = idx
             arr2.forEach((x) => {
                 if( x.name === e.name ){
                     e.gRating = x.gRating;
@@ -119,7 +115,45 @@ const Home = () => {
         })
         // .sort((a, b)=> b.gRating - a.gRating)
     }
-    // GOOGLE SETSTATE, BOTH DATA
+    const combineArr2 = (arr1, arr2) => {
+        return arr1.map((e)=>{
+            arr2.forEach((x)=>{
+                if(x.name === e.name){
+                    e.fRating = parseFloat((x.fRating / 2).toFixed(1));
+                    e.fTotal = x.fTotal;
+                    e.restUrl = x.restUrl;
+                    e.fUrl = x.fUrl;
+                } else {
+                    e.fRating = e.fRating ? e.fRating : 0;
+                    e.fTotal = e.fTotal > 0 ? e.fTotal : 0;
+                }
+            })
+            return e;
+        })
+        // .sort((a, b) => b.gRating - a.gRating);
+        // .sort((a, b) => b.fRating - a.fRating);
+    }
+    const reduceSize = (arr) => {
+        // if only yelp and both google, fsq is not available drop
+        const returnArr = []
+        arr.map(r => {
+            if(r.gRating || r.fRating){
+                returnArr.push(r)
+            } 
+        })
+        returnArr.forEach((e, idx) => {
+            e.id = idx;
+            if(e.gRating){ // just yelp and google
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.gTotal)) + e.gRating * (e.gTotal / (e.yTotal + e.gTotal))).toFixed(1))
+            } else if(e.fRating){ // just yelp and 4sq
+                e.oRating = parseFloat((e.yRating * (e.yTotal / (e.yTotal + e.fTotal)) + e.fRating * (e.fTotal / (e.yTotal + e.fTotal))).toFixed(1))
+            } else { // all 3
+                e.oRating = parseFloat((e.yRating * (e.yTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.gRating * (e.gTotal/(e.yTotal + e.fTotal + e.gTotal)) + e.fRating * (e.fTotal/(e.yTotal + e.fTotal + e.gTotal))).toFixed(1))
+            }
+        })
+        return returnArr
+    }
+    // GOOGLE SETSTATE
     useEffect(()=>{
         try{
             if(state.googleStore.gRest){
@@ -133,8 +167,13 @@ const Home = () => {
                     }
                 }) 
                 setRestaurantsG(cleanGoog)
-                const combined = combineArr(restaurantsY, cleanGoog)
-                setTotalRests(combined);
+                const combinedWithFour = combineArr2(restaurantsY, restaurantsF)
+                const combined = combineArr(combinedWithFour, cleanGoog)
+                const reduced = reduceSize(combined)
+                // const combined = combineArr(restaurantsY, cleanGoog)
+                // const combinedWithFour = combineArr2(combined, restaurantsF)
+                // const reduced = reduceSize(combinedWithFour)
+                setTotalRests(reduced);
                 setLoading(false);
             }
         } catch(e){
@@ -177,6 +216,7 @@ const Home = () => {
             console.log(err)
         }
     }
+    console.log(totalRests)
     return(
         <main className={classes.root}>
             <Box sx={{ bgcolor: '#FFF', pt: 8, pb: 6 }}>
