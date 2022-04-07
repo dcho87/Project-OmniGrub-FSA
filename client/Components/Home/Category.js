@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Avatar } from '@mui/material';
-import { useStyles, FiList, FiChip } from '../styles';
+import { useStyles, FiList, FiChip } from '../../styles';
 
 const Category = ({cuisines, handleFilter}) => {
     const classes = useStyles();

@@ -51,7 +51,7 @@ router.get("/searchnear/:location", async (req, res, next) => {
         params: {
           key: process.env.SECRET_KEY_GOOGLE,
           location: req.params.location,
-          radius: 1500,
+          radius: 5000,
           keyword: "restaurant",
           pagetoken: "",
         },
@@ -92,22 +92,25 @@ router.get("/searchnear/:location", async (req, res, next) => {
       });
       //Last line that sends out to the front end
       res.send(response.data);
-    }, 8000);
+    }, 6000);
   } catch (err) {
     next(err);
   }
 });
 
 //GET Place Data
-router.get("/placedata", async (req, res, next) => {
+router.put("/placedata", async (req, res, next) => {
   try {
     const response = await axios.get(
-      "https://maps.googleapis.com/maps/api/place/details/json",
+      "https://maps.googleapis.com/maps/api/place/textsearch/json",
       {
         params: {
           key: process.env.SECRET_KEY_GOOGLE,
-          place_id: "ChIJkwNptPhYwokRFVgCsuHriwI",
-          fields: ["name", "rating", "formatted_phone_number", "geometry"],
+          query:
+            "restaurant" +
+            req.body.name +
+            req.body.location.zip_code +
+            req.body.location.address1,
         },
       }
     );

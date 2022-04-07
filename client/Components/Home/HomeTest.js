@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby } from '../store';
+import { getAllRest, getGoogleRestaurant, reverseGeocode, findNearby } from '../../store';
 import { Box, Container, Typography, Paper, Pagination } from '@mui/material';
 import RestaurantGrid from './RestaurantGrid';
 import Category from './Category';

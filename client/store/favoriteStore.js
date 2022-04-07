@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 // ACTION TYPES CONSTANTS
 const FETCH_FAVORITE = "FETCH_FAVORITE";
@@ -16,38 +17,52 @@ const _addToFavorite = (favorite) => ({
 });
 
 // THUNKS
-export const fetchFavorite = () => {
+export const fetchFavorite = (user) => {
   return async (dispatch) => {
-    const user = (await axios.get("/auth/me")).data;
-    const favorite = (await axios.get(`/favorite/${user.id}`)).data;
-    dispatch(_fetchFavorite(favorite));
+    if (user) {
+      const favoriteId = (await axios.get(`/api/favorite/${user.id}`)).data.id;
+      const favorite = (await axios.get(`/api/favorite/list/${favoriteId}`))
+        .data;
+      dispatch(_fetchFavorite(favorite));
+    } else {
+      return {};
+    }
   };
 };
 
-export const addToFavorite = (resInfo) => {
+export const addToFavorite = (resInfo, user) => {
   return async (dispatch) => {
-    const user = (await axios.get("/auth/me")).data;
-    let favorite = (await axios.get(`/favorite/${user.id}`)).data;
+    let favoriteId = (await axios.get(`/api/favorite/${user.id}`)).data.id;
+    const yId = resInfo.yLat.toString().slice(0, 8);
+    let list = (await axios.get(`/api/favorite/list/${favoriteId}`)).data;
 
-    //Add Restaurant Data into DB
-    await axios.post("/api/favorite", resInfo);
+    //Check if association already exist
+    if (list.filter((e) => e.restaurantyId === yId).length) {
+      //Remove Favorite
+      console.log("removed");
+      await axios.put(`/api/favorite/remove/${favoriteId}`, resInfo);
 
-    //Add Restaurant to Favorite
-    await axios.put(`/api/favorite/${favorite.id}`, resInfo);
+      //Fetch the updated favorite list
+      let favorite = (await axios.get(`/api/favorite/list/${favoriteId}`)).data;
+      dispatch(_addToFavorite(favorite));
+    } else {
+      //Add Restaurant Data into DB
+      console.log("db added");
+      await axios.put(`/api/favorite/${favoriteId}`, resInfo);
 
-    //Fetch the updated favorite list
-    favorite = (await axios.get(`/favorite/${user.id}`)).data;
-
-    dispatch(_addToFavorite(favorite));
+      //Fetch the updated favorite list
+      let favorite = (await axios.get(`/api/favorite/list/${favoriteId}`)).data;
+      dispatch(_addToFavorite(favorite));
+    }
   };
 };
 
 export default (state = [], action) => {
   switch (action.type) {
     case FETCH_FAVORITE:
-      return [...state, action.favorite];
+      return action.favorite;
     case ADD_TO_FAVORITE:
-      return [...state, action.favorite];
+      return action.favorite;
     default:
       return state;
   }

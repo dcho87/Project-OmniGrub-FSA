@@ -8,6 +8,7 @@ import yelpSlice from "./yelpSlice";
 import fourSlice from "./fourSlice";
 import googleStore from "./googleStore";
 import favoriteStore from "./favoriteStore";
+import { placeSearch } from "./googleStore";
 import auth from "./auth";
 import flashMessage from "./flashMessage";
 import * as actionCreators from "../store";
@@ -45,5 +46,5 @@ export * from "./yelpSlice";
 export * from "./fourSlice";
 export * from "./googleStore";
 export * from "./favoriteStore";
-export * from './auth'
-export * from './flashMessage'
+export * from "./auth";
+export * from "./flashMessage";

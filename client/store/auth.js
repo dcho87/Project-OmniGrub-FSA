@@ -1,13 +1,15 @@
 import axios from "axios";
-import { setflashMessage } from ".";
+import { fetchFavorite, setflashMessage } from ".";
 
 const TOKEN = "token";
 
 //ACTION TYPES
 const SET_AUTH = "SET_AUTH";
+const UPDATE_USER = "UPDATE_USER";
 
 //ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
+const upUser = (user) => ({ type: UPDATE_USER, user });
 
 //THUNK CREATORS
 
@@ -49,34 +51,45 @@ export const me = () => async (dispatch) => {
         authorization: token,
       },
     });
+    dispatch(fetchFavorite(response.data));
     return dispatch(setAuth(response.data));
   }
 };
 
-
 export const oauth = (data) => async (dispatch) => {
-    try {
-      const user = await (axios.get(`/auth/exists/${data.googleId}`))
-      console.log("THIS IS DATAAAAAA", data)
-      console.log("THIS IS USERRRRR", user)
-      if(user.data.user === false){
-        await dispatch(authenticate(data, "signup")).then(() => {
-            dispatch(setflashMessage(true, "success", "Welcome to OmniGrub!"));
-          });
-      } else if(user.data.user === true){
-        await dispatch(authenticateGoog(data, "login")).then(() => {
-            dispatch(setflashMessage(true, "success", "Welcome back!"));
-          });
-      }
-
-    } catch (ex) {
-      console.log(ex);
+  try {
+    const user = await axios.get(`/auth/exists/${data.googleId}`);
+    console.log("THIS IS DATAAAAAA", data);
+    console.log("THIS IS USERRRRR", user);
+    if (user.data.user === false) {
+      await dispatch(authenticate(data, "signup")).then(() => {
+        dispatch(setflashMessage(true, "success", "Welcome to OmniGrub!"));
+      });
+    } else if (user.data.user === true) {
+      await dispatch(authenticateGoog(data, "login")).then(() => {
+        dispatch(setflashMessage(true, "success", "Welcome back!"));
+      });
     }
-  };
+  } catch (ex) {
+    console.log(ex);
+  }
+};
 //pretty simple, just calls setauth with an empty object and removes the token from localstorage
 export const logout = () => (dispatch) => {
   dispatch(setAuth({}));
   window.localStorage.removeItem(TOKEN);
+};
+
+
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    try {
+      const newUser = (await axios.put(`/api/users/${user.id}`, user)).data;
+      dispatch(upUser(newUser));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
 
 //REDUCER
