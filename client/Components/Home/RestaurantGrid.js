@@ -24,14 +24,16 @@ const RestaurantGrid = ({
   setIsDrawerOpen,
   user,
   favoriteList,
+  filtered
 }) => {
   restaurants = restaurants.currentData();
+  // console.log(restaurants)
   const dispatch = useDispatch();
-
-  //STATES
+  const classes = useStyles();
+  // FAVORITES STATES
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-
+  // FAVORITE HANDLERS
   const onClick1 = (restaurant, user) => {
     dispatch(addToFavorite(restaurant, user));
     setOpen1(true);
@@ -47,17 +49,22 @@ const RestaurantGrid = ({
     setOpen1(false);
     setOpen2(false);
   };
-
-  //Favorite List
+  // FAVORITE LIST 
   const favList = [];
   Object.keys(favoriteList).forEach(function (key) {
     favList.push(favoriteList[key]["restaurantyId"]);
   });
-
-  const classes = useStyles();
+  let mappingRests;
+  if(filtered){
+    mappingRests = totalRests
+  } else {
+    mappingRests = restaurants
+  }
+  console.log(mappingRests)
   return (
     <>
-      {restaurants.map((restaurant, idx) => {
+    
+      {mappingRests.map((restaurant, idx) => {
         const lat = restaurant.yLat.toString().slice(0, 8);
         return (
           <Box key={idx} className={classes.singleBoxes}>

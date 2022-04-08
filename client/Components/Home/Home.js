@@ -25,6 +25,7 @@ const Home = () => {
   const countPerPage = 5;
   const count = Math.ceil(totalRests.length / countPerPage);
   const _totalRests = usePagination(totalRests, count);
+  
   // CATEGORY & CUISINE
   const cuisines = [
     "Show All",
@@ -83,7 +84,6 @@ const Home = () => {
     currentIdx: 0,
   });
   // HANDLE DRAWER
-  // const handleDrawer = (openBool, id) => {
   const handleDrawer = (openBool, ev) => {
     let indexR = 0;
     let currentR = '';
@@ -201,8 +201,7 @@ const Home = () => {
         returnArr.push(r);
       }
     });
-    returnArr.forEach((e, idx) => {
-      // e.id = idx;
+    returnArr.forEach((e) => {
       if (e.gRating) {
         // just yelp and google
         e.oRating = parseFloat(
@@ -234,7 +233,7 @@ const Home = () => {
       if( a.fRating === 0 || a.gRating === 0) return -1
       if( b.fRating === 0 || b.gRating === 0) return -1
       return 0
-    }).forEach((e, idx)=>e.id = idx)
+    }).forEach((e, idx) => e.id = idx)
     return returnArr;
   };
   // GOOGLE SETSTATE
@@ -268,9 +267,6 @@ const Home = () => {
                     return 1;
                   });
         const reduced = reduceSize(combined);
-        // const combined = combineArr(restaurantsY, cleanGoog);
-        // const combinedWithFour = combineArr2(combined, restaurantsF);
-        // const reduced = reduceSize(combinedWithFour);
         setTotalRests(reduced);
         setLoading(false);
       }
@@ -287,18 +283,14 @@ const Home = () => {
     let newRestList1 = combineArr2(restaurantsY, restaurantsF);
     let newRestList2 = combineArr(newRestList1, restaurantsG);
     let combinedNewLists = reduceSize(newRestList2);
-    // let newRestList = combineArr(restaurantsY, restaurantsG);
     if (newCuisine === "Show All") {
       setTotalRests(combinedNewLists);
-      // setTotalRests(newRestList);
+      setFiltered(false);
     } else if (category) {
       // now if the category includes a part of the cuisine word, spits out that result
       combinedNewLists = combinedNewLists.filter((r) => r.category.join('').includes(newCuisine));
-      // combinedNewLists = combinedNewLists.filter((r) => r.category.includes(newCuisine));
       setTotalRests(combinedNewLists);
       console.log(combinedNewLists)
-      // newRestList = newRestList.filter((r) => r.category.includes(newCuisine));
-      // setTotalRests(newRestList);
     }
     setFiltered(true);
   };
@@ -367,6 +359,7 @@ const Home = () => {
               handleDrawer={handleDrawer}
               user={state.auth}
               favoriteList={state.favoriteStore}
+              filtered={filtered}
             />
           ) : (
             ""
