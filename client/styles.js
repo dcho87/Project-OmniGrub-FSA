@@ -184,11 +184,6 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "flex-start",
   },
-  // comparison: {
-  //     display: 'flex',
-  //     justifyContent: 'space-around',
-  //     margin: '0, 0, 1rem, 0'
-  // },
   pagination: {
     margin: "2rem",
     display: "flex",

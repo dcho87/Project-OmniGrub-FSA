@@ -118,8 +118,8 @@ const RestaurantGrid = ({
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  onClick={() => handleDrawer(true, restaurant.id)}
-                  // onClick={(ev)=>handleDrawer(ev)}
+                  // onClick={() => handleDrawer(true, restaurant.id)}
+                  onClick={(ev) => handleDrawer(true, ev)}
                   style={{ cursor: "pointer" }}
                 >
                   {restaurant.name}
@@ -212,6 +212,15 @@ const RestaurantGrid = ({
                 style={{ fontSize: "1.5rem", marginBottom: "0.6rem" }}
               >
                 {totalRests[isDrawerOpen.currentIdx]?.name}
+                <span>&nbsp;</span>
+                { totalRests[isDrawerOpen.currentIdx]?.restUrl ? (
+                  <IconButton
+                    sx={{ p: "1.5px" }}
+                    href={totalRests[isDrawerOpen.currentIdx]?.restUrl}
+                  >
+                    <LaunchIcon />
+                  </IconButton>
+              ) : ''}
               </Typography>
               <Typography className={classes.ratingTextSide}>
                 OmniGrub:
@@ -266,16 +275,7 @@ const RestaurantGrid = ({
               <Typography className={classes.ratingTextSide}>
                 Google:
                 <span>&nbsp;</span>
-                {totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ? (
-                  <IconButton
-                    sx={{ p: "1.5px" }}
-                    href={totalRests[isDrawerOpen.currentIdx]?.url}
-                  >
-                    <LaunchIcon />
-                  </IconButton>
-                ) : (
-                  ""
-                )}
+                
               </Typography>
               {totalRests[isDrawerOpen.currentIdx]?.gRating !== 0 ? (
                 <Typography className={classes.ratingTextSide}>

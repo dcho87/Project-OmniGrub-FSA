@@ -79,14 +79,23 @@ const Home = () => {
   // DRAWER
   const [isDrawerOpen, setIsDrawerOpen] = useState({
     isOpen: false,
+    restName: '',
     currentIdx: 0,
   });
   // HANDLE DRAWER
-  const handleDrawer = (openBool, id) => {
-    console.log(id)
+  // const handleDrawer = (openBool, id) => {
+  const handleDrawer = (openBool, ev) => {
+    let indexR = 0;
+    let currentR = '';
+
+    if(ev){
+      currentR = ev.target.innerText
+      indexR = totalRests.findIndex(r => r.name === ev.target.innerText)
+    }
     setIsDrawerOpen({
       isOpen: openBool,
-      currentIdx: id,
+      restName: currentR,
+      currentIdx: indexR,
     });
   };
   // ZIPCODE LOCATION
@@ -150,7 +159,7 @@ const Home = () => {
       console.log(e);
     }
   }, [state.yelpSlice[0]]);
-  // COMBINING API RESULTS 
+  // COMBINING API RESULTS WITH GOOGLE RESULTS
   const combineArr = (arr1, arr2) => {
     return arr1.map((e, idx) => {
       arr2.forEach((x) => {
@@ -166,8 +175,8 @@ const Home = () => {
       });
       return e;
     });
-    // .sort((a, b)=> b.gRating - a.gRating)
   };
+  // COMBINING WITH FSQ RESULTS
   const combineArr2 = (arr1, arr2) => {
     return arr1.map((e) => {
       arr2.forEach((x) => {
@@ -183,11 +192,9 @@ const Home = () => {
       });
       return e;
     });
-    // .sort((a, b) => b.gRating - a.gRating);
-    // .sort((a, b) => b.fRating - a.fRating);
   };
   const reduceSize = (arr) => {
-    // if only yelp and both google, fsq is not available drop
+    // Drop if only yelp available and google + fsq not available
     const returnArr = [];
     arr.map((r) => {
       if (r.gRating || r.fRating) {
@@ -195,7 +202,7 @@ const Home = () => {
       }
     });
     returnArr.forEach((e, idx) => {
-      e.id = idx;
+      // e.id = idx;
       if (e.gRating) {
         // just yelp and google
         e.oRating = parseFloat(
@@ -222,12 +229,12 @@ const Home = () => {
           ).toFixed(1)
         );
       }
-    })
+    });
     returnArr.sort((a, b) => {
       if( a.fRating === 0 || a.gRating === 0) return -1
       if( b.fRating === 0 || b.gRating === 0) return -1
       return 0
-    })
+    }).forEach((e, idx)=>e.id = idx)
     return returnArr;
   };
   // GOOGLE SETSTATE
@@ -246,7 +253,20 @@ const Home = () => {
         });
         setRestaurantsG(cleanGoog);
         const combinedWithFour = combineArr2(restaurantsY, restaurantsF);
-        const combined = combineArr(combinedWithFour, cleanGoog);
+        const combined = combineArr(combinedWithFour, cleanGoog)
+                .sort((a, b) => {
+                    //sort Google ratings first
+                    if (a.gRating === b.gRating) {
+                      return 0;
+                    } else if (a.gRating < b.gRating) {
+                      return -1;
+                    }
+                    return 1;
+                  })
+                  .sort((x, y) => {
+                    if (x.fRating === 0) return -1;
+                    return 1;
+                  });
         const reduced = reduceSize(combined);
         // const combined = combineArr(restaurantsY, cleanGoog);
         // const combinedWithFour = combineArr2(combined, restaurantsF);
